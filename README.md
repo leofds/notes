@@ -268,6 +268,14 @@ git branch -d <nome_branch>
 git branch -D <nome_branch>
 ```
 
+## Arquivando alterações
+
+```
+git stash
+git stash --list
+git stash pop
+```
+
 # Repositório Remoto
 
 **Adicionar um repositório remoto**
@@ -338,4 +346,22 @@ git checkout -b <nome_branch> origin/<nome_branch>
 ```
 git branch -r
 ```
+
+# Autenticação com git-credentials
+
+Armazena as credenciais no disco
+
+```
+git config credential.helper store
+```
+
+**.git-credentials** arquivo com as credenciais de usuário. 
+
+```
+https://user:pass@example.com
+```
+
+Cuidado! não adicione este arquivo ao repositório, este arquivo não é criptografado.
+
+
 
