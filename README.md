@@ -86,6 +86,12 @@ Salvar as alterações no repositório local
 git commit -m “Primeiro commit”
 ```
 
+## Desfazer último commit
+
+```
+git reset HEAD~
+```
+
 ## Ignorando arquivos com .gitignore
 
 Arquivo com a configuração dos arquivos e diretórios que serão ignorados. O arquivo **.gitignore** deve estar na raiz do repositório.
@@ -226,12 +232,19 @@ git branch -b <nome_branch>
 git checkout master
 ```
 
-**Juntar um branch com o master**
+**Integrar/Mesclar alterações de um branch com o master**
 
 É preciso estar no branch principal (**master**).
 
 ```
 git merge <nome_branch>
+```
+
+**Reescrever as alterações do master no branch**
+
+```
+git checkout <nome_branch>
+git rebase master
 ```
 
 **Apagar branch**
@@ -245,3 +258,4 @@ git branch -d <nome_branch>
 ```
 git branch -D <nome_branch>
 ```
+
