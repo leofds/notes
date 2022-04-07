@@ -324,3 +324,9 @@ git push origin <nome_branch>:<novo_nome_branch>      # criando branch remoto co
 git checkout -b <nome_branch> origin/<nome_branch>
 ```
 
+**Exibir os branches remotos**
+
+```
+git branch -r
+```
+
