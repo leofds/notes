@@ -37,7 +37,7 @@ git config --global user.email leonardo_.fernandes@hotmail.com
 git config --list
 ```
 
-## Repositório Local
+# Repositório Local
 
 ***staging area*** espaço temporário das mudanças que serão adicionadas.
 
@@ -305,5 +305,21 @@ git push origin <nome_tag>
 
 ```
 git push origin --tags
+```
+
+
+**Criando branch no remoto**
+
+```
+git push origin <nome_branch>
+git push --set-upstream origin <nome_branch>
+
+git push origin <nome_branch>:<novo_nome_branch>      # criando branch remoto com outro nome
+```
+
+**Baixar um branch remoto**
+
+```
+git checkout -b <nome_branch> origin/<nome_branch>
 ```
 
