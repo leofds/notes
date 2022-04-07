@@ -259,3 +259,51 @@ git branch -d <nome_branch>
 git branch -D <nome_branch>
 ```
 
+# Repositório Remoto
+
+**Adicionar um repositório remoto**
+
+```
+git remote add origin <url_repositorio>
+```
+
+**Exibir repositórios remoto**
+
+```
+git remote
+git remote -v
+git remote show origin
+```
+
+**Enviar alterações para o repositório remoto**
+
+```
+git push -u origin master     # primeiro push deve conter o nome do repositório remoto e o branch
+git push
+```
+
+**Buscar as alterações do remoto**
+
+```
+git pull
+git fetch             # Busca as alterações mas não aplica ao branch atual
+```
+
+**Clonar um repositório remoto**
+
+```
+git clone <url_repositorio>
+```
+
+**Criar tag no repositório remoto**
+
+```
+git push origin <nome_tag>
+```
+
+**Criando todas as tags no repositório remoto**
+
+```
+git push origin --tags
+```
+
