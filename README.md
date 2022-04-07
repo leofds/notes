@@ -78,6 +78,15 @@ git reset <nome_arquivo>
 git reset
 ```
 
+**Redefinir arquivos ao HEAD**
+
+```
+git reset --hard HEAD       # volta ao HEAD
+git reset --hard HEAD^      # volta ao commit antes do HEAD
+git reset --hard HEAD~1     # equivalente a "^"
+git reset --hard HEAD~2     # volta dois commits antes do HEAD
+```
+
 ## Commit
 
 Salvar as alterações no repositório local
