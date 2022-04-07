@@ -276,6 +276,12 @@ git stash --list
 git stash pop
 ```
 
+## Copiar um commit de uma branch para outra
+
+```
+git cherry-pick <hash_commit>
+```
+
 # Repositório Remoto
 
 **Adicionar um repositório remoto**
