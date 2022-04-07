@@ -280,6 +280,7 @@ git remote show origin
 ```
 git push -u origin master     # primeiro push deve conter o nome do repositório remoto e o branch
 git push
+git push origin --force       # força a sobreescria do remoto
 ```
 
 **Buscar as alterações do remoto**
