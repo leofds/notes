@@ -192,6 +192,13 @@ git tag -a <tagname> -m '<message>'
 git tag
 ```
 
+**Criar tag para um commit**
+
+```
+git tag <tag_name> <commit_sha>
+```
+
+
 ## Voltar para um commit específico
 
 **Cuidado!!!** O histórico será perdido.
