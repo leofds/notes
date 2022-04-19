@@ -239,7 +239,7 @@ git checkout <nome_branch>
 **Criar um novo branch e mudar para ele**
 
 ```
-git branch -b <nome_branch>
+git checkout -b <nome_branch>
 ```
 
 **Voltar para o branch principal (master)**
