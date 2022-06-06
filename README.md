@@ -39,7 +39,7 @@ git config --list
 
 # Repositório Local
 
-***staging area*** espaço temporário das mudanças que serão adicionadas.
+***staging area*** (Index) espaço temporário das mudanças que serão adicionadas.
 
 **Criar repositório**
 
@@ -98,7 +98,9 @@ git commit -m “Primeiro commit”
 ## Desfazer último commit
 
 ```
-git reset HEAD~
+git reset -soft HEAD~     # Move somente o ponteiro no repositorio (HEAD) para o commit anterior
+git reset HEAD~           # Move para para trás no HEAD e no Index (Staging Area), Working Directory ainda contém as alterações
+git reset -hard HEAD~     # Move para trás o HEAD, Index e Working Directory, porém o commit ainda existe no repositório, está salvo no reflog
 ```
 
 ## Atualizando o último commit
