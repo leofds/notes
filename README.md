@@ -101,6 +101,12 @@ git commit -m “Primeiro commit”
 git reset HEAD~
 ```
 
+## Atualizando o último commit
+
+```
+git commit -a --amend
+```
+
 ## Ignorando arquivos com .gitignore
 
 Arquivo com a configuração dos arquivos e diretórios que serão ignorados. O arquivo **.gitignore** deve estar na raiz do repositório.
