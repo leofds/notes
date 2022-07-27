@@ -87,7 +87,6 @@ git reset --hard HEAD       # volta ao HEAD
 git reset --hard HEAD^      # volta ao commit antes do HEAD
 git reset --hard HEAD~1     # equivalente a "^"
 git reset --hard HEAD~2     # volta dois commits antes do HEAD
-git reset --hard <commit-hash>  # volta ao commit específico
 ```
 
 ## Commit
