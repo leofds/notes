@@ -283,6 +283,12 @@ git branch -d <nome_branch>
 git branch -D <nome_branch>
 ```
 
+**Apagar todos os branches mantendo o master**
+
+```
+git branch | grep -v "master" | xargs git branch -D
+```
+
 ## Arquivando alterações
 
 ```
