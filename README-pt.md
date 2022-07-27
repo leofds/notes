@@ -1,4 +1,4 @@
-Select Language: [English](https://github.com/leofds/git/edit/master/README.md), [Portuguese](https://github.com/leofds/git/edit/master/README-pt.md)
+Select Language: [English](https://github.com/leofds/git/README.md), [Portuguese](https://github.com/leofds/git/README-pt.md)
 
 # Git
 
