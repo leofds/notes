@@ -313,6 +313,13 @@ git cherry-pick <hash_commit>
 git remote add origin <url_repositorio>
 git remote add <branch_name> <url_repositorio>
 ```
+
+**Remover um repositório remoto**
+
+```
+git remote add rm <nemote_name>
+```
+
 **Exibir repositórios remoto**
 
 ```
