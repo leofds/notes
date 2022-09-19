@@ -97,6 +97,16 @@ Salvar as alterações no repositório local
 git commit -m “Primeiro commit”
 ```
 
+Juntar commits em um
+
+```
+git rebase -i HEAD~3        # 3 é o número dos últimos commits a juntar
+                            # Após este comando o editor de texto abrirá, onde será listado os último commits que pretendemos juntar.
+                            # É necessário mudar o comando "pick" que aparece antes de cada comando, para "squash", apenas
+                            # nos commits que desejamos mudar.
+                            # Após gravar este arquivo, um outro será aberto o a mensagem de texto desse commit
+```
+
 ## Desfazer último commit
 
 ```
@@ -289,6 +299,12 @@ git branch -D <nome_branch>
 
 ```
 git branch | grep -v "master" | xargs git branch -D
+```
+
+**Renomear branch**
+
+```
+git branch -m <old-branch> <new-branch>
 ```
 
 ## Arquivando alterações
