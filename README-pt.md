@@ -118,7 +118,7 @@ git reset -hard HEAD~     # Move para trás o HEAD, Index e Working Directory, p
 ## Atualizando o último commit
 
 ```
-git commit -a --amend
+git commit -a --amend --no-edit
 ```
 
 ## Ignorando arquivos com .gitignore
