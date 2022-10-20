@@ -192,6 +192,23 @@ git log --diff-filter=M -- <nome_do_arquivo>
 git log --author=leonardo
 ```
 
+## Show
+
+**Exibir as alterações de um commit**
+
+```
+git show <hash_do_commit>
+git show <hash_do_commit>:<nome arquivo>
+```
+
+## Blame
+
+**Mostrar qual revisão e autor modificou pela última vez cada linha de um arquivo**
+
+```
+git blame <nome_do_arquivo>
+```
+
 ## Tag
 
 **Criar tag**
