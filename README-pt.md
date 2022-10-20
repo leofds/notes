@@ -339,7 +339,7 @@ git branch -m <old-branch> <new-branch>
 
 ```
 git stash
-git stash --list
+git stash list
 git stash pop
 ```
 
