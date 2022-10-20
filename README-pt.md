@@ -209,6 +209,17 @@ git show <hash_do_commit>:<nome arquivo>
 git blame <nome_do_arquivo>
 ```
 
+## Diff
+
+**Visualizar diferencas entre versões do projeto**
+
+Digite `q` para sair
+
+```
+git diff <hash_do_commit_1> <hash_do_commit_2>
+git diff <hash_do_commit_1> <hash_do_commit_2> -- <nome_do_arquivo_1> <nome_do_arquivo_2>
+```
+
 ## Tag
 
 **Criar tag**
