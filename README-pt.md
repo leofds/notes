@@ -341,6 +341,7 @@ git branch -m <old-branch> <new-branch>
 git stash
 git stash list
 git stash pop
+git stash clear
 ```
 
 ## Copiar um commit de uma branch para outra
