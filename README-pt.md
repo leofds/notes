@@ -110,15 +110,21 @@ git rebase -i HEAD~3        # 3 é o número dos últimos commits a juntar
 ## Desfazer último commit
 
 ```
-git reset -soft HEAD~     # Move somente o ponteiro no repositorio (HEAD) para o commit anterior
-git reset HEAD~           # Move para para trás no HEAD e no Index (Staging Area), Working Directory ainda contém as alterações
-git reset -hard HEAD~     # Move para trás o HEAD, Index e Working Directory, porém o commit ainda existe no repositório, está salvo no reflog
+git reset HEAD~1           # Move para para trás no HEAD e no Index (Staging Area), Working Directory ainda contém as alterações
+git reset -soft HEAD~1     # Move somente o ponteiro no repositorio (HEAD) para o commit anterior
+git reset -hard HEAD~1     # Move para trás o HEAD, Index e Working Directory, porém o commit ainda existe no repositório, está salvo no reflog
 ```
 
-## Atualizando o último commit
+## Atualizando o último commit com as alterações correntes
 
 ```
 git commit -a --amend --no-edit
+```
+
+## Atualizar a mensagem do último commit
+
+```
+git commit --amend -m "<message>"
 ```
 
 ## Ignorando arquivos com .gitignore
