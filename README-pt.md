@@ -66,6 +66,7 @@ git add <nome_arquivo1> <nome_arquivo2>
 
 ```
 git add .
+git add -u                # atualiza arquivos já adicionados
 ```
 
 **Desfazendo a inclusão de um arquivo à *staging area***
