@@ -225,6 +225,7 @@ Digite `q` para sair
 ```
 git diff <hash_do_commit_1> <hash_do_commit_2>
 git diff <hash_do_commit_1> <hash_do_commit_2> -- <nome_do_arquivo_1> <nome_do_arquivo_2>
+git diff <branch1>..<branch2>
 ```
 
 ## Tag
