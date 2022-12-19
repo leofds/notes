@@ -438,10 +438,12 @@ git branch -r
 
 # Autenticação com git-credentials
 
-Armazena as credenciais no disco
+Armazena as credenciais
 
 ```
-git config credential.helper store
+git config credential.helper store                              # Armazena no disco
+git config --global credential.helper cache                     # Armazena temporariamente
+git config --global credential.helper 'cache --timeout=28800'   # Armazena por 8 horas
 ```
 
 **.git-credentials** arquivo com as credenciais de usuário. 
