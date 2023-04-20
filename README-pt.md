@@ -119,7 +119,7 @@ git reset -hard HEAD~1     # Move para trás o HEAD, Index e Working Directory, 
 ## Atualizando o último commit com as alterações correntes
 
 ```
-git commit -a --amend --no-edit
+git commit -a --amend --no-edit -date=now
 ```
 
 ## Atualizar a mensagem do último commit
