@@ -52,32 +52,19 @@ git status
 
 **Adicionando arquivo à *staging area***
 
-```shell
+```
 git add <nome_arquivo>                    
 git add <nome_arquivo1> <nome_arquivo2>
-git add .                 # adiciona todos os arquivos
-git add -u                # atualiza arquivos já adicionados
+
+git add .         # adiciona todos os arquivos
+git add -u        # atualiza arquivos já adicionados
 ```
 
 **Desfazendo a inclusão de um arquivo à *staging area***
 
 ```
 git reset <nome_arquivo>
-```
-
-**Desfazendo a inclusão de todos os arquivos à *staging area***
-
-```
-git reset
-```
-
-**Redefinir arquivos ao HEAD**
-
-```
-git reset --hard HEAD       # volta ao HEAD
-git reset --hard HEAD^      # volta ao commit antes do HEAD
-git reset --hard HEAD~1     # equivalente a "^"
-git reset --hard HEAD~2     # volta dois commits antes do HEAD
+git reset         # todos os arquivos
 ```
 
 ## Commit
@@ -98,6 +85,15 @@ git rebase -i HEAD~3        # 3 é o número dos últimos commits a juntar
                             # Após gravar este arquivo, um outro será aberto o a mensagem de texto desse commit
 ```
 
+**Redefinir arquivos ao HEAD**
+
+```
+git reset --hard HEAD       # volta ao HEAD
+git reset --hard HEAD^      # volta ao commit antes do HEAD
+git reset --hard HEAD~1     # equivalente a "^"
+git reset --hard HEAD~2     # volta dois commits antes do HEAD
+```
+
 ## Desfazer último commit
 
 ```
@@ -106,16 +102,18 @@ git reset -soft HEAD~1     # Move somente o ponteiro no repositorio (HEAD) para 
 git reset -hard HEAD~1     # Move para trás o HEAD, Index e Working Directory, porém o commit ainda existe no repositório, está salvo no reflog
 ```
 
+## Restaurar arquivo
+
+```
+git rebase <nome_arquivo>
+git rebase .                # Todos os arquivos
+```
+
 ## Atualizando o último commit com as alterações correntes
 
 ```
-git commit -a --amend --no-edit -date=now
-```
-
-## Atualizar a mensagem do último commit
-
-```
-git commit --amend -m "<message>"
+git commit -a --amend --no-edit -date=now     # Atualizar com as alterações correntes
+git commit --amend -m "<menssagem>"           # Atualizar a mensagem do último commit
 ```
 
 ## Ignorando arquivos com .gitignore
@@ -137,28 +135,16 @@ build/            # ignora o diretório build
 
 ```
 git log
+git log -p -2                 # Diferença das duas últimas alterações
+git log –stat                 # Resumo
+git log --pretty=oneline      # Resumo em uma linha
+git log -- <nome_do_arquivo>  # Histórico de um arquivo
+git log --author=leonardo     # Por author
+git log --diff-filter=M -- <nome_do_arquivo> # Histórico de modificação de um arquivo
+                                             # (A) Adicionado, (C) Copiado, (D) Deletado, (M) Modificado, (R) Renomeado, ...
 ```
 
-**Exibir histórico com a diferença das duas últimas alterações**
-
-```
-git log -p -2
-```
-
-
-**Exibir resumo do histórico**
-
-```
-git log –stat
-```
-
-**Exibir histórico resumido em uma linha**
-
-```
-git log --pretty=oneline
-```
-
-**Exibir histórico com formatação**
+**Histórico com formatação**
 
 ```
 git log --pretty=format:"%h, %an, %ar, %s"
@@ -169,25 +155,6 @@ git log --pretty=format:"%h, %an, %ar, %s"
 + **%s** Comentário
 
 [Outras opções de formatação](http://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History)
-
-**Histórico de um arquivo**
-
-```
-git log -- <nome_do_arquivo>
-```
-
-**Histórico de modificação de um arquivo**
-
-```
-git log --diff-filter=M -- <nome_do_arquivo>
-```
-(A) Adicionado, (C) Copiado, (D) Deletado, (M) Modificado, (R) Renomeado, ...
-
-**Histórico por autor**
-
-```
-git log --author=leonardo
-```
 
 ## Show
 
