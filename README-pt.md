@@ -360,6 +360,7 @@ git remote show origin
 git push -u origin master     # primeiro push deve conter o nome do repositório remoto e o branch
 git push
 git push origin --force       # força a sobreescria do remoto
+git push origin HEAD
 ```
 
 **Buscar as alterações do remoto**
@@ -402,24 +403,3 @@ git checkout -b <nome_branch> origin/<nome_branch>
 ```
 git branch -r
 ```
-
-# Autenticação com git-credentials
-
-Armazena as credenciais
-
-```
-git config credential.helper store                              # Armazena no disco
-git config --global credential.helper cache                     # Armazena temporariamente
-git config --global credential.helper 'cache --timeout=28800'   # Armazena por 8 horas
-```
-
-**.git-credentials** arquivo com as credenciais de usuário. 
-
-```
-https://user:pass@example.com
-```
-
-Cuidado! não adicione este arquivo ao repositório, este arquivo não é criptografado.
-
-
-
