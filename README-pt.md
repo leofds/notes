@@ -117,8 +117,8 @@ git reset HEAD@{1}
 ## Restaurar arquivo
 
 ```
-git rebase <nome_arquivo>
-git rebase .                # Todos os arquivos
+git restore <nome_arquivo>
+git restore .                # Todos os arquivos
 ```
 
 ## Atualizando o último commit com as alterações correntes
