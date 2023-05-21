@@ -21,15 +21,10 @@ git help <comando>
 
 As configurações do GIT são armazenadas no arquivo **.gitconfig** localizado dentro do diretório do usuário do Sistema.
 
-**Definir nome do usuário**
+**Definir nome e e-mail do usuário**
 
 ```
 git config --global user.name "Leonardo Fernandes"
-```
-
-**Definir e-mail do usuário**
-
-```
 git config --global user.email leonardo_.fernandes@hotmail.com
 ```
 
@@ -57,15 +52,10 @@ git status
 
 **Adicionando arquivo à *staging area***
 
-```
-git add <nome_arquivo>
+```shell
+git add <nome_arquivo>                    
 git add <nome_arquivo1> <nome_arquivo2>
-```
-
-**Adicionando todos os arquivo à *staging area***
-
-```
-git add .
+git add .                 # adiciona todos os arquivos
 git add -u                # atualiza arquivos já adicionados
 ```
 
