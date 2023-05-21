@@ -183,6 +183,7 @@ Digite `q` para sair
 git diff <hash_do_commit_1> <hash_do_commit_2>
 git diff <hash_do_commit_1> <hash_do_commit_2> -- <nome_do_arquivo_1> <nome_do_arquivo_2>
 git diff <branch1>..<branch2>
+git diff --staged
 ```
 
 ## Tag
@@ -280,12 +281,7 @@ git rebase master
 
 ```
 git branch -d <nome_branch>
-```
-
-**Apagar branch que não houve merge**
-
-```
-git branch -D <nome_branch>
+git branch -D <nome_branch>   # -D para branch que não houve merge
 ```
 
 **Apagar todos os branches mantendo o master**
@@ -313,9 +309,16 @@ git stash clear
 
 ```
 git cherry-pick <hash_commit>
+git cherry-pick -x <hash_commit>    # Adiciona uma mensagem "cherry picked from commit ..."
 ```
 
 # Repositório Remoto
+
+**Clonar um repositório remoto**
+
+```
+git clone <url_repositorio>
+```
 
 **Adicionar um repositório remoto**
 
@@ -327,7 +330,7 @@ git remote add <branch_name> <url_repositorio>
 **Remover um repositório remoto**
 
 ```
-git remote add rm <nemote_name>
+git remote remove <nemote_name>
 ```
 
 **Exibir repositórios remoto**
@@ -353,12 +356,6 @@ git pull
 git fetch             # Busca as alterações mas não aplica ao branch atual
 ```
 
-**Clonar um repositório remoto**
-
-```
-git clone <url_repositorio>
-```
-
 **Criar tag no repositório remoto**
 
 ```
@@ -381,7 +378,7 @@ git push --set-upstream origin <nome_branch>
 git push origin <nome_branch>:<novo_nome_branch>      # criando branch remoto com outro nome
 ```
 
-**Baixar um branch remoto**
+**Criar um novo branch a partir de um branch remoto**
 
 ```
 git checkout -b <nome_branch> origin/<nome_branch>
