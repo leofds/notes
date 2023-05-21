@@ -85,6 +85,12 @@ git rebase -i HEAD~3        # 3 é o número dos últimos commits a juntar
                             # Após gravar este arquivo, um outro será aberto o a mensagem de texto desse commit
 ```
 
+## reflog
+
+```
+git reflog
+```
+
 **Redefinir arquivos ao HEAD**
 
 ```
@@ -94,12 +100,18 @@ git reset --hard HEAD~1     # equivalente a "^"
 git reset --hard HEAD~2     # volta dois commits antes do HEAD
 ```
 
-## Desfazer último commit
+**Desfazer último commit**
 
 ```
 git reset HEAD~1           # Move para para trás no HEAD e no Index (Staging Area), Working Directory ainda contém as alterações
 git reset -soft HEAD~1     # Move somente o ponteiro no repositorio (HEAD) para o commit anterior
 git reset -hard HEAD~1     # Move para trás o HEAD, Index e Working Directory, porém o commit ainda existe no repositório, está salvo no reflog
+```
+
+**Mover o HEAD**
+
+```
+git reset HEAD@{1}
 ```
 
 ## Restaurar arquivo
@@ -138,6 +150,7 @@ git log
 git log -p -2                 # Diferença das duas últimas alterações
 git log –stat                 # Resumo
 git log --pretty=oneline      # Resumo em uma linha
+git log --oneline --all
 git log -- <nome_do_arquivo>  # Histórico de um arquivo
 git log --author=leonardo     # Por author
 git log --diff-filter=M -- <nome_do_arquivo> # Histórico de modificação de um arquivo
