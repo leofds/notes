@@ -19,7 +19,7 @@ git help <command>
 
 ## Configurations
 
-The Git configurations are stored into **.gitconfig** file, in the user's home directory.
+The Git configurations are stored in **.gitconfig** file, in the user's home directory.
 
 **Setting username and email**
 
@@ -60,7 +60,7 @@ git add .         # add all modified files
 git add -u        # update files already added
 ```
 
-**Undoing the inclusion of a file to the *staging area***
+**Undoing the inclusion of a file in the *staging area***
 
 ```
 git reset <file_name>
@@ -69,7 +69,7 @@ git reset         # all files
 
 ## Commit
 
-Save changes to local repository
+Save changes to a local repository
 
 ```
 git commit -m “First commit”
@@ -101,7 +101,7 @@ git reset --hard HEAD~2     # back two coomits before HEAD
 ```
 git reset HEAD~1           # Move the HEAD and Index (Staging Area) to the back, Working Directory still has the changes
 git reset -soft HEAD~1     # Move only the HEAD to the previous commit
-git reset -hard HEAD~1     # Move the HEAD, Index and Working Directory to the back, although the commit still exists into repository, it is saved in the reflog
+git reset -hard HEAD~1     # Move the HEAD, Index, and Working Directory to the back, although the commit still exists in repository, it is saved in the reflog
 ```
 
 **Move the HEAD**
@@ -110,7 +110,7 @@ git reset -hard HEAD~1     # Move the HEAD, Index and Working Directory to the b
 git reset HEAD@{1}
 ```
 
-## Restore file
+## Restore the file
 
 ```
 git restore <file_name>
@@ -126,7 +126,7 @@ git commit --amend -m "<message>"           # Update the last commit message
 
 ## Ignoring files with .gitignore
 
-File with the files and directory that will be ignored. The file **.gitignore** must be on the root directory ot the repository.
+File with the files and directory that will be ignored. The file **.gitignore** must be in the root directory of the repository.
 
 **.gitignore** example file
 ```
@@ -143,7 +143,7 @@ build/            # ignores the directory build
 
 ```
 git log
-git log -p -2                 # Difference of the last two changes
+git log -p -2                 # Difference netween the last two changes
 git log –stat                 # Summary
 git log --pretty=oneline      # One line summary
 git log --oneline --all
@@ -236,7 +236,7 @@ The main branch is the **master**.
 
 The HEAD is a pointer that indicates which is the current branch.
 
-The current branch can be verified by command **git status**
+The current branch can be verified by the command **git status**
 
 **List branches**
 
@@ -264,7 +264,7 @@ git checkout <branch_name>
 git checkout -b <branch_name>
 ```
 
-**Go back to main branch (master)**
+**Go back to the main branch (master)**
 
 ```
 git checkout master
@@ -313,7 +313,7 @@ git stash pop
 git stash clear
 ```
 
-## Copy a commit from a branch to another one
+## Copy a commit from one branch to another one
 
 ```
 git cherry-pick <commit_hash>
@@ -335,7 +335,7 @@ git remote add origin <repository_url>
 git remote add <branch_name> <repository_url>
 ```
 
-**Delte a remote repository**
+**Delete a remote repository**
 
 ```
 git remote remove <nemote_name>
@@ -354,7 +354,7 @@ git remote show origin
 ```
 git push -u origin master     # The first push must have the remote repository name and the branch name
 git push
-git push origin --force       # Forces the overrite on the remote
+git push origin --force       # Forces the overwrite on the remote
 git push origin HEAD
 ```
 
@@ -362,7 +362,7 @@ git push origin HEAD
 
 ```
 git pull
-git fetch             # Fetch changes but do not apply to current branch
+git fetch             # Fetch changes but does not apply to the current branch
 ```
 
 **Create a tag in the remote**
@@ -378,7 +378,7 @@ git push origin --tags
 ```
 
 
-**Create branch in the remote**
+**Create a branch in the remote**
 
 ```
 git push origin <branch_name>
