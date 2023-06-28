@@ -234,6 +234,15 @@ git tag <tag_name> <commit_sha>
 git reset --hard <hash_do_commit/tag>
 ```
 
+## Excluir arquivos não rastreados
+
+```
+git clean -n      # para ver um teste
+git clean -f      # força a remoção dos arquivos não rastreados
+git clean -f -d   # remove diretórios não rastreados
+git clean -f -x   # remove arquivos .gitignore não rastreados também
+```
+
 ## Branches (ramos)
 
 O branch principal é o **master**.
