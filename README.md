@@ -230,6 +230,15 @@ git tag <tag_name> <commit_hash>
 git reset --hard <commit_hash/tag>
 ```
 
+## Clean untracked files
+
+```
+git clean -n      # to see a dry run
+git clean -f      # force untracked file deletion
+git clean -f -d   # remove untracked directories
+git clean -f -x   # to remove untracked .gitignore files too
+```
+
 ## Branches
 
 The main branch is the **master**.
