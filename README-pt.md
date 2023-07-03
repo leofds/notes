@@ -75,6 +75,8 @@ Salvar as alterações no repositório local
 git commit -m “Primeiro commit”
 ```
 
+### Squash
+
 Juntar commits em um
 
 ```
