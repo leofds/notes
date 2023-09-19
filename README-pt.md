@@ -378,6 +378,7 @@ git push origin HEAD
 
 ```
 git pull
+git pull origin <branch_name>
 git fetch             # Busca as alterações mas não aplica ao branch atual
 ```
 
