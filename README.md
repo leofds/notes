@@ -373,6 +373,7 @@ git push origin HEAD
 
 ```
 git pull
+git pull origin <branch_name>
 git fetch             # Fetch changes but does not apply to the current branch
 ```
 
