@@ -118,9 +118,27 @@ git reset HEAD@{1}
 
 ## Restaurar arquivo
 
+Desfazendo alterações
+
 ```
 git restore <nome_arquivo>
 git restore .                # Todos os arquivos
+
+git restore --staged <nome_arquivo>
+git restore --staged .                # Todos os arquivos
+```
+
+## Reverter um commit
+
+```
+git revert <commit_hash>
+```
+
+Revertendo apenas um arquivo (2 formas)
+
+```
+git checkout <commit-hash> -- <file_name>
+git restore -s <commit_hash> --  <file_name>
 ```
 
 ## Atualizando o último commit com as alterações correntes
