@@ -114,9 +114,27 @@ git reset HEAD@{1}
 
 ## Restore the file
 
+Undoing changes
+
 ```
 git restore <file_name>
 git restore .                # All files
+
+git restore --staged <file_name>
+git restore --staged .                # All files
+```
+
+## Revert a commit
+
+```
+git revert <commit_hash>
+```
+
+Reverting just one file (2 ways)
+
+```
+git checkout <commit-hash> -- <file_name>
+git restore -s <commit_hash> --  <file_name>
 ```
 
 ## Update the last commit with current changes
