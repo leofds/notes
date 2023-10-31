@@ -28,6 +28,12 @@ git config --global user.name "Leonardo Fernandes"
 git config --global user.email leonardo_.fernandes@hotmail.com
 ```
 
+**Git text editor**
+
+```
+git config --global core.editor "nano"
+```
+
 **List settings**
 
 ```
