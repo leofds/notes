@@ -31,7 +31,7 @@ git config --global user.email leonardo_.fernandes@hotmail.com
 **Git text editor**
 
 ```
-git config --global core.editor "nano"
+git config --global core.editor "vi"
 ```
 
 **List settings**
