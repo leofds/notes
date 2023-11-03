@@ -146,7 +146,7 @@ git restore -s <commit_hash> --  <file_name>
 ## Update the last commit with current changes
 
 ```
-git commit -a --amend --no-edit -date=now
+git commit -a --amend --no-edit --date=now
 git commit --amend -m "<message>"           # Update the last commit message
 ```
 
