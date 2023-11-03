@@ -150,7 +150,7 @@ git restore -s <commit_hash> --  <file_name>
 ## Atualizando o último commit com as alterações correntes
 
 ```
-git commit -a --amend --no-edit -date=now     # Atualizar com as alterações correntes
+git commit -a --amend --no-edit --date=now     # Atualizar com as alterações correntes
 git commit --amend -m "<menssagem>"           # Atualizar a mensagem do último commit
 ```
 
