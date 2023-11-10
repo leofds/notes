@@ -267,6 +267,7 @@ git clean -n      # para ver um teste
 git clean -f      # força a remoção dos arquivos não rastreados
 git clean -f -d   # remove diretórios não rastreados
 git clean -f -x   # remove arquivos .gitignore não rastreados também
+git clean -fd
 ```
 
 ## Branches (ramos)
