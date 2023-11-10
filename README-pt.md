@@ -389,6 +389,18 @@ git remote -v
 git remote show origin
 ```
 
+**Exibir URL do remoto**
+
+```
+git config --get remote.origin.url
+```
+
+**Alterar URL do remoto**
+
+```
+git remote set-url origin <git_repository_url>
+```
+
 **Enviar alterações para o repositório remoto**
 
 ```
@@ -438,16 +450,4 @@ git checkout -b <nome_branch> origin/<nome_branch>
 
 ```
 git branch -r
-```
-
-**Exibir URL do remoto**
-
-```
-git config --get remote.origin.url
-```
-
-**Alterar URL do remoto**
-
-```
-git remote set-url origin <git_repository_url>
 ```
