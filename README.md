@@ -444,5 +444,5 @@ git config --get remote.origin.url
 **Change remote URL**
 
 ```
-git remote set-url origin <your-url-address>
+git remote set-url origin <git_repository_url>
 ```
