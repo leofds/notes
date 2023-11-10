@@ -423,7 +423,7 @@ git push --set-upstream origin <branch_name>
 git push origin <branch_name>:<new_branch_name>      # creating with other name
 ```
 
-**Create a new branch Criar from a remote branch**
+**Create a new branch from a remote branch**
 
 ```
 git checkout -b <branch_name> origin/<branch_name>
