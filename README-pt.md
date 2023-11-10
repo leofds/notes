@@ -439,3 +439,15 @@ git checkout -b <nome_branch> origin/<nome_branch>
 ```
 git branch -r
 ```
+
+**Exibir URL do remote**
+
+```
+git config --get remote.origin.url
+```
+
+**Alterar URL do remote**
+
+```
+git remote set-url origin <your-url-address>
+```
