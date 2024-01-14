@@ -1,4 +1,4 @@
-Select Language: [English](https://github.com/leofds/git/blob/master/README.md), [Portuguese](https://github.com/leofds/git/blob/master/README-pt.md)
+Este repositório contém uma lista de comandos Git úteis. Selecione o idioma: [English](https://github.com/leofds/git/blob/master/README.md), [Portuguese](https://github.com/leofds/git/blob/master/README-pt.md)
 
 # Git
 
