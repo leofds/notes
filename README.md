@@ -412,6 +412,9 @@ git push origin HEAD
 git pull
 git pull origin <branch_name>
 git fetch             # Fetch changes but does not apply to the current branch
+
+# Updating the branch keeping the uncommitted local changes (keeps a linear history)
+git pull --all --rebase --autostash
 ```
 
 **Create a tag in the remote**
