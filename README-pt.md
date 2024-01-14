@@ -417,6 +417,9 @@ git push origin HEAD
 git pull
 git pull origin <branch_name>
 git fetch             # Busca as alterações mas não aplica ao branch atual
+
+# Atualizando o branch mantendo as alterações locais não comitadas (matém um hitórico linear)
+git pull --all --rebase --autostash
 ```
 
 **Criar tag no repositório remoto**
