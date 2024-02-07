@@ -334,7 +334,7 @@ git branch -D <nome_branch>   # -D for non merged branch
 git branch | grep -v "master" | xargs git branch -D
 ```
 
-Deleting branches such as master-prod, master-test, ...
+Deleting branches such as `master-prod` or `master-test`.
 
 ```
 git branch | grep -v " master$" | xargs git branch -D
