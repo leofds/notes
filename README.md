@@ -334,6 +334,12 @@ git branch -D <nome_branch>   # -D for non merged branch
 git branch | grep -v "master" | xargs git branch -D
 ```
 
+Deleting branches such as master-prod, master-test, ...
+
+```
+git branch | grep -v " master$" | xargs git branch -D
+```
+
 **Rename branch**
 
 ```
