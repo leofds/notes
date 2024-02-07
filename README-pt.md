@@ -298,7 +298,6 @@ O HEAD vai apontar para o novo branch
 git checkout <nome_branch>
 ```
 
-
 **Criar um novo branch e mudar para ele**
 
 ```
@@ -337,6 +336,12 @@ git branch -D <nome_branch>   # -D para branch que não houve merge
 
 ```
 git branch | grep -v "master" | xargs git branch -D
+```
+
+Apagando branches como `master-prod` e `master-test`.
+
+```
+git branch | grep -v " master$" | xargs git branch -D
 ```
 
 **Renomear branch**
