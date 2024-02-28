@@ -315,8 +315,17 @@ git checkout master
 É preciso estar no branch principal (**master**).
 
 ```
-git merge <nome_branch>
+git merge <branch_name>
+
+git merge --abort                     // Aborta o merge se houver conflitos
+git merge --continue                  // Continua o merge depois que os conflitos foram resolvidos. Provavelmente você precisará executar `git add .` primeiro.
 ```
+
+Resolvendo conflitos automaticamente
+
+```
+git merge -X theirs <branch_name>    // A estratégia "theirs" resolve os conflitos favoritando as mudanças do branch <branch_name>.
+git merge -X ours <branch_name>      // A estratégia "ours" resolve os conflitos favoritando as mudanças do branch atual.
 
 **Reescrever as alterações do master no branch**
 
