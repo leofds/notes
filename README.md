@@ -312,6 +312,16 @@ It's necessary to be on the main branch (**master**).
 
 ```
 git merge <branch_name>
+
+git merge --abort                     // Aborts the merge if there are conflicts.
+git merge --continue                  // Continue the merge after the conflicts are solved. Probably you will need to run `git add .`.
+```
+
+Automatically resolving conflicts
+
+```
+git merge -X theirs <branch_name>    // The strategy "theirs" conflicts by favoring the changes from the <branch_name> branch.
+git merge -X ours <branch_name>      // The strategy "ours" resolves conflicts by favoring the changes from the current branch.
 ```
 
 **Write master changes to branch**
