@@ -314,7 +314,7 @@ It's necessary to be on the main branch (**master**).
 git merge <branch_name>
 
 git merge --abort                     // Aborts the merge if there are conflicts.
-git merge --continue                  // Continue the merge after the conflicts are solved. Probably you will need to run `git add .`.
+git merge --continue                  // Continue the merge after the conflicts are solved. Probably you will need to run `git add .` first.
 ```
 
 Automatically resolving conflicts
