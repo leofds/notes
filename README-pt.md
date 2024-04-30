@@ -179,6 +179,7 @@ git log --pretty=oneline      # Resumo em uma linha
 git log --oneline --all
 git log -- <nome_do_arquivo>  # Histórico de um arquivo
 git log --author=leonardo     # Por author
+git log --grep=<pattern>      # Mensagem de Log que corresponde ao padrão especificado
 git log --diff-filter=M -- <nome_do_arquivo> # Histórico de modificação de um arquivo
                                              # (A) Adicionado, (C) Copiado, (D) Deletado, (M) Modificado, (R) Renomeado, ...
 ```
