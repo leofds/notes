@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ANSIBLE_VERSION="v2.17.0"
+ANSIBLE_VERSION="v2.17.1"
 
 NEW_PATH="$HOME/.local/bin"
 BASHRC_FILE="$HOME/.bashrc"
