@@ -56,3 +56,10 @@ mygroup:
     device2:
 ```
 
+# Commands
+
+Version
+
+```shell
+ansible --version
+```
