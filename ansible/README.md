@@ -1,6 +1,6 @@
 # Ansible
 
-## How to install on Ubuntu 24
+## 1. How to install on Ubuntu 24
 
 ```shell
 sudo apt update
@@ -16,7 +16,7 @@ Upgrade
 pipx upgrade --include-injected ansible
 ```
 
-### Creating configuration file
+### 1.1. Creating configuration file
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -24,7 +24,7 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### Creating inventory
+### 1.2. Creating inventory
 
 ```shell
 mkdir /etc/ansible/inventories
@@ -32,10 +32,24 @@ sed -i 's|;inventory=/etc/ansible/hosts|inventory=/etc/ansible/inventories|' /et
 touch /etc/ansible/inventories/hosts.yml
 ```
 
-**hosts.yml (creating hosts)**
+**Adding hosts**
 
 ```yaml
 all:
+  hosts:
+    device1:
+    device2:
+```
+
+**Adding groups**
+
+```yaml
+all:
+  hosts:
+    device1:
+    device2:
+
+mygroup:
   hosts:
     device1:
     device2:
