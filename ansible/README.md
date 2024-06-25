@@ -58,8 +58,14 @@ mygroup:
 
 # Commands
 
-Version
+**Version**
 
 ```shell
 ansible --version
+```
+
+**List inventory**
+
+```shell
+ansible-inventory --list
 ```
