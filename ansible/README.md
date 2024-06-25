@@ -29,12 +29,14 @@ ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```shell
 mkdir /etc/ansible/inventories
 sed -i 's|;inventory=/etc/ansible/hosts|inventory=/etc/ansible/inventories|' /etc/ansible/ansible.cfg
+touch /etc/ansible/inventories/hosts.yml
 ```
 
-** hosts.yml **
+**hosts.yml (creating hosts)**
 
 ```yaml
 all:
   hosts:
     device1:
+    device2:
 ```
