@@ -34,7 +34,7 @@ touch /etc/ansible/inventories/hosts.yml
 
 **hosts.yml**
 
-Two devices and one group.
+Two hosts and one group.
 
 ```yaml
 all:
@@ -47,3 +47,4 @@ mygroup:
     device1:
     device2:
 ```
+
