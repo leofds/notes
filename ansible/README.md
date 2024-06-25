@@ -41,13 +41,13 @@ all:
   hosts:
     device1:
       ansible_host: "192.168.0.10"
-      ansible_ssh_user: "admin"
-      ansible_ssh_pass: "admin"
+      ansible_ssh_user: "leo"
+      ansible_ssh_pass: "******"
       ansible_python_interpreter: "/usr/bin/python3"
     device2:
       ansible_host: "192.168.0.11"
-      ansible_ssh_user: "admin"
-      ansible_ssh_private_key_file: "/home/ansible/.ssh/id_ed25519"
+      ansible_ssh_user: "leo"
+      ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
       ansible_python_interpreter: "/usr/bin/python3"
 
 mygroup:
