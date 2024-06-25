@@ -32,16 +32,7 @@ sed -i 's|;inventory=/etc/ansible/hosts|inventory=/etc/ansible/inventories|' /et
 touch /etc/ansible/inventories/hosts.yml
 ```
 
-**Adding hosts**
-
-```yaml
-all:
-  hosts:
-    device1:
-    device2:
-```
-
-**Adding groups**
+**Inventory file hosts.yml**
 
 ```yaml
 all:
