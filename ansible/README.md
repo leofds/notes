@@ -8,9 +8,18 @@ sudo apt install pipx -y
 pipx install --include-deps ansible
 pipx ensurepath
 source ~/.bashrc
-ansible-config init --disabled -t all > ~/.ansible.cfg
 ```
-Upgrade 
+
+Upgrade
+
 ```shell
 pipx upgrade --include-injected ansible
+```
+
+### Creating configuration file
+
+```shell
+sudo mkdir -p /etc/ansible
+sudo chown $USER:$USER /etc/ansible
+ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
