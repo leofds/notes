@@ -24,17 +24,12 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 1.2. Creating inventory
+### 1.2. Creating inventory (YAML)
 
 ```shell
-mkdir /etc/ansible/inventories
-sed -i 's|;inventory=/etc/ansible/hosts|inventory=/etc/ansible/inventories|' /etc/ansible/ansible.cfg
-touch /etc/ansible/inventories/hosts.yml
+touch /etc/ansible/hosts
 ```
 
-**hosts.yml**
-
-Two hosts and one group.
 
 ```yaml
 mygroup:
