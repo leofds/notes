@@ -1,8 +1,20 @@
 # Ansible
 
-## How to install on Ubuntu 24
+## How to install on Ubuntu 24 (local user)
 
-Run the script [install.sh](https://github.com/leofds/notes/blob/master/ansible/install.sh) to install ansible v2.17.0 from the official repository [Ansible](https://github.com/ansible/ansible).
+```shell
+sudo apt update
+sudo apt install pipx -y
+pipx install --include-deps ansible
+pipx ensurepath
+source ~/.bashrc
+```
+
+### Upgrade
+
+```shell
+pipx upgrade --include-injected ansible
+```
 
 ## Setup
 
