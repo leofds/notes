@@ -46,7 +46,7 @@ mygroup:
     ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-# Commands
+## 2. Commands
 
 **Version**
 
@@ -99,7 +99,7 @@ ansible localhost -m setup --tree facts.d/                # write facts to file
 ansible-galaxy collection install ansible.utils           # Install the collection ansible.utils
 ```
 
-# Playbook
+## 3. Playbook
 
 Ansible Playbook File is a lists of tasks that executes for specified inventory.
 
@@ -133,41 +133,78 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-# Variables
+## 4. Variables
 
 Ansible uses `Jinja2` to access variables dynamically (`{{ variable_name }}`).
 
-**Using variables in a playbook**
+```yaml
+...
+- name: Display a debug message
+  debug:
+    msg: "Hello {{ username }}"
+```
+
+### 4.1. Variable types
+
+**Simple variable**
 
 ```yaml
-- name: Sample Playbook
-  hosts: all
-
-  tasks:
-    - name: Display a debug message
-      debug:
-        msg: "Hello {{ username }}"
+vars:
+  base_path: '/etc/config'
+  message: |
+    this is a very
+    long string
+```
+Referencing simple variables
+```yaml
+app_path: "{{ base_path }}"
 ```
 
-```shell
-ansible-playbook myplaybook.yml -l localhost -e username=leo
+**Multiple lines string**
+
+```yaml
+vars:
+  message: >
+    Your long
+    string here.
 ```
 
-**output**
-
-```
-PLAY [Sample PLaybook] ***********************************************************************************************************************************************
-
-TASK [Display a debug message] ***************************************************************************************************************************************
-ok: [localhost] => {
-    "msg": "Welcome leo"
-}
-
-PLAY RECAP ***********************************************************************************************************************************************************
-localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```yaml
+vars:
+  message: |
+    this is a very
+    long string
 ```
 
-### Variables in the Playbook file (.yml)
+**List**
+
+```yaml
+vars:
+  region:
+  - northeast
+  - southeast
+  - midwest
+```
+Referencing list variables
+```yaml
+region: "{{ region[0] }}"
+```
+
+**Dictionary**
+
+```yaml
+var:
+  foo:
+    field1: one
+    field2: two
+```
+Referencing key:value dictionary variables
+```yaml
+field: "{{ foo['field1'] }}"
+field: "{{ foo.field1 }}"
+```
+
+### 4.2. Variables in the Playbook file (.yml)
 
 ```yml
 - name: Sample Playbook
@@ -179,14 +216,14 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0    s
     - /vars/external_vars.yml
 ```
 
-### External Variables file (.yml)
+### 4.3. External Variables file (.yml)
 
 ```yml
 username: 'leo'
 password: '*****'
 ```
 
-### group_vars & host_vars
+### 4.4. group_vars & host_vars
 
 group_vars/host_vars variables files are automatically loaded when running a playbook. 
 
@@ -208,7 +245,7 @@ Create the dir `/etc/ansible/host_vars`.
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
 ```
 
-### Inventory Variables
+### 4.5. Inventory Variables
 
 ```yaml
 mygroup:
