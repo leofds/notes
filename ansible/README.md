@@ -167,7 +167,7 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-### Variables in the playbook file (.yml)
+### Variables in the Playbook file (.yml)
 
 ```yml
 - name: Sample Playbook
@@ -179,7 +179,7 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0    s
     - /vars/external_vars.yml
 ```
 
-### External variables file (.yml)
+### External Variables file (.yml)
 
 ```yml
 username: 'leo'
@@ -208,7 +208,7 @@ Create the dir `/etc/ansible/host_vars`.
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
 ```
 
-### Inventory variables
+### Inventory Variables
 
 ```yaml
 mygroup:
