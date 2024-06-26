@@ -151,9 +151,6 @@ Ansible uses `Jinja2` to access variables dynamically (`{{ variable_name }}`).
 ```yaml
 vars:
   base_path: '/etc/config'
-  message: |
-    this is a very
-    long string
 ```
 Referencing simple variables
 ```yaml
