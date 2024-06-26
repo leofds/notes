@@ -10,13 +10,13 @@ pipx ensurepath
 source ~/.bashrc
 ```
 
-Upgrade
+Updating
 
 ```shell
 pipx upgrade --include-injected ansible
 ```
 
-### 1.1. Creating configuration file
+### 1.1. Creating configuration file (optional)
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -64,20 +64,24 @@ ansible-inventory --list
 
 ```shell
 # General
-ansible-playbook my_playbook.yml                          # hosts defined in the playbook
-ansible-playbook my_playbook.yml -l localhost,device1     # (--limit) limit selected hosts (comma separated)
-ansible-playbook my_playbook.yml -i /tmp/inventory.yml    # (--inventory) specify the inventory (comma separated)
-ansible-playbook my_playbook.yml -vvv                     # verbose mode (-v, -vvv, -vvvv)
+ansible-playbook myplaybook.yml                          # run the playbook for all hosts defined inside the playbook
+ansible-playbook myplaybook.yml -l localhost,device1     # (--limit) limit selected hosts (comma separated)
+ansible-playbook myplaybook.yml -i /tmp/inventory.yml    # (--inventory) specify the inventory (comma separated)
+ansible-playbook myplaybook.yml -vvv                     # verbose mode (-v, -vvv, -vvvv)
+
+# Extra variables
+ansible-playbook myplaybook.yml -e username=leo          # (--extra_vars) set additional variables as key=value or YAML/JSON
+ansible-playbook myplaybook.yml -e @variables.yml        # if filename prepend with @
 
 # Tags and Tasks
-ansible-playbook my_playbook.yml --list-tags              # list all available tags
-ansible-playbook my_playbook.yml --list-tasks             # list all tasks that would be executed
-ansible-playbook my_playbook.yml --tags                   # (-t) only run plays and tasks tagged with these values
-ansible-playbook my_playbook.yml --skip-tags              # only run plays and tasks whose tags do not match these values
+ansible-playbook myplaybook.yml --list-tags              # list all available tags
+ansible-playbook myplaybook.yml --list-tasks             # list all tasks that would be executed
+ansible-playbook myplaybook.yml --tags                   # (-t) only run plays and tasks tagged with these values
+ansible-playbook myplaybook.yml --skip-tags              # only run plays and tasks whose tags do not match these values
 
 # Vault pass
-ansible-playbook my_playbook.yml --ask-vault-pass         # ask for vault password
-ansible-playbook my_playbook.yml --vault-password-file    # vault password file
+ansible-playbook myplaybook.yml --ask-vault-pass         # ask for vault password
+ansible-playbook myplaybook.yml --vault-password-file    # vault password file
 ```
 
 **Run Module**
@@ -91,4 +95,72 @@ ansible localhost -m setup --tree facts.d/                # write facts to file
 
 ```shell
 ansible-galaxy collection install ansible.utils           # Install the collection ansible.utils
+```
+
+# Playbook
+
+Ansible Playbook File is a lists of tasks that executes for specified inventory.
+
+**Sample Playbook file (myplaybook.yml)**
+
+```yaml
+- name: Sample Playbook
+  hosts: all
+
+  tasks:
+    - name: Display a debug message
+      debug:
+        msg: "Hello Admin"
+```
+
+```shell
+ansible-playbook myplaybook.yml
+```
+
+**output**
+```
+
+PLAY [Sample PLaybook] ***********************************************************************************************************************************************
+
+TASK [Display a debug message] ***************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "Welcome Admin"
+}
+
+PLAY RECAP ***********************************************************************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+# Variables
+
+Ansibke uses `Jinja2` to accees variables dynamically (`{{ variable_name }}`).
+
+**Using variables in a playbook**
+
+```yaml
+- name: Sample Playbook
+  hosts: all
+
+  tasks:
+    - name: Display a debug message
+      debug:
+        msg: "Hello {{ username }}"
+```
+
+```shell
+ansible-playbook myplaybook.yml -e username=leo
+```
+
+**output**
+
+```
+PLAY [Sample PLaybook] ***********************************************************************************************************************************************
+
+TASK [Display a debug message] ***************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "Welcome leo"
+}
+
+PLAY RECAP ***********************************************************************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
