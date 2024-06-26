@@ -208,7 +208,7 @@ Create the dir `/etc/ansible/host_vars`.
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
 ```
 
-### Inventory Variables
+### Inventory variables
 
 ```yaml
 mygroup:
