@@ -179,7 +179,7 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0    s
     - /vars/external_vars.yml
 ```
 
-### Variables file (.yml)
+### External variables file (.yml)
 
 ```yml
 username: 'leo'
