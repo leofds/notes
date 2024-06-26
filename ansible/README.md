@@ -211,6 +211,11 @@ field: "{{ foo.field1 }}"
     password: '*****'
   vars_files:
     - /vars/external_vars.yml
+
+  tasks:
+    - name: Display a debug message
+      vars:
+        username: 'leo'
 ```
 
 ### 4.3. External Variables file (.yml)
