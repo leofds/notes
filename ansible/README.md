@@ -268,6 +268,7 @@ Create the dir `/etc/ansible/host_vars`.
   connection: ssh
   collections:
     - my_namespace.my_collection
+  become: yes
   vars:
     username: 'leo'
   vars_files:
@@ -318,3 +319,31 @@ Using a collection.
   collections:
     - my_namespace.my_collection
 ```
+
+**become**
+
+Ansible allows you to ‘become’ another user, different from the user that logged into the machine (remote user). This is done using existing privilege escalation tools such as sudo, su, pfexec, doas, pbrun, dzdo, ksu, runas, machinectl and others.
+
+```yaml
+  become: yes
+  become_method: su
+  become_user: nobody              # default root
+  become_pass:
+  become_flags: '-s /bin/sh'
+```
+
+**service**
+
+Controls services on remote hosts.
+
+```yaml
+- name: Ensure the httpd service is running
+  service:
+    name: httpd
+    state: started
+  become: yes
+```
+
+**command**
+
+
