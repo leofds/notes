@@ -259,18 +259,55 @@ Create the dir `/etc/ansible/host_vars`.
 
 # 5. Writing Playbooks
 
+## 5.1. Playbook properties
+
+**Playbook name**
+
 ```yaml
-- name: Sample        # Playbook name
-  hosts: 
+- name: Sample 
 ```
 
 **hosts**
 
 ```yaml
 hosts: <pattern>    # Common patterns (thay can be combined)
-                    # all - All hosts
-                    # host1 - One host
-                    # host1:host2 (host1,host2) - Multiple hosts/groups
-                    # all:!host1 - All hosts/groups except one
-                    # group1:&group2 - Any hosts in the group1 that are also in the group2
+
+hosts: all                        # All hosts
+hosts: host1                      # One host
+hosts: host1:host2 (host1,host2)  # Multiple hosts/groups
+hosts: all:!host1                 # All hosts/groups except one
+hosts: group1:&group2             # Any hosts in the group1 that are also in the group2
+```
+
+**gather_facts**
+
+Ansible facts are data related to your remote systems.
+By default, Ansible gathers facts at the beginning of each play.
+
+```yaml
+gather_facts: false      # Disable facts t improve performance
+```
+
+```yaml
+- name: Print all available facts
+  ansible.builtin.debug:
+    var: ansible_facts
+```
+
+**connection**
+
+Change the connection plugin. Lists available plugins with `ansible-doc -t connection -l`.
+
+```yaml
+connection: local      # execute on controller
+connection: ssh        # connect via ssh client binary
+```
+
+**collections**
+
+Using a collection.
+
+```yaml
+collections:
+  - my_namespace.my_collection
 ```
