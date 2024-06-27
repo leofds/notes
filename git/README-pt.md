@@ -328,7 +328,9 @@ Resolvendo conflitos automaticamente
 git merge -X theirs <branch_name>    // A estratégia "theirs" resolve os conflitos favoritando as mudanças do branch <branch_name>.
 git merge -X ours <branch_name>      // A estratégia "ours" resolve os conflitos favoritando as mudanças do branch atual.
 
-**Reescrever as alterações do master no branch**
+**Rebase branch**
+
+Sincroniza o branck atual com outro branck, movendo os commits para o ponto após o último commit do outro branch.
 
 ```
 git checkout <nome_branch>

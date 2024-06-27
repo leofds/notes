@@ -325,7 +325,9 @@ git merge -X theirs <branch_name>    // The strategy "theirs" conflicts by favor
 git merge -X ours <branch_name>      // The strategy "ours" resolves conflicts by favoring the changes from the current branch.
 ```
 
-**Write master changes to branch**
+**Rebase branch**
+
+Sync the current branch with the other branch, moving commits to the point after the last commit of the other branch.
 
 ```
 git checkout <branch_name>
