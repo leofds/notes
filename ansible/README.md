@@ -16,7 +16,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 1.1. Creating configuration file (optional)
+### 1.1. Creating configuration file
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -29,7 +29,6 @@ ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```shell
 touch /etc/ansible/hosts
 ```
-
 
 ```yaml
 mygroup:
@@ -225,6 +224,17 @@ username: 'leo'
 password: '*****'
 ```
 
+### 4.4. Inventory Variables
+
+```yaml
+mygroup:
+  hosts:
+    device1:
+      username: "leo"       # host variable
+  vars:
+    dummy: "superserver"    # group variable
+```
+
 ### 4.4. group_vars & host_vars
 
 group_vars/host_vars variables files are automatically loaded when running a playbook. 
@@ -247,13 +257,20 @@ Create the dir `/etc/ansible/host_vars`.
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
 ```
 
-### 4.5. Inventory Variables
+# 5. Writing Playbooks
 
 ```yaml
-mygroup:
-  hosts:
-    device1:
-      username: "leo"       # host variable
-  vars:
-    dummy: "superserver"    # group variable
+- name: Sample        # Playbook name
+  hosts: 
+```
+
+**hosts**
+
+```yaml
+hosts: <pattern>    # Common patterns (thay can be combined)
+                    # all - All hosts
+                    # host1 - One host
+                    # host1:host2 (host1,host2) - Multiple hosts/groups
+                    # all:!host1 - All hosts/groups except one
+                    # group1:&group2 - Any hosts in the group1 that are also in the group2
 ```
