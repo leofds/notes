@@ -261,22 +261,29 @@ Create the dir `/etc/ansible/host_vars`.
 
 ## 5.1. Playbook properties
 
-**Playbook name**
-
 ```yaml
-- name: Sample 
+- name: Sample
+  hosts: all
+  gather_facts: false
+  connection: ssh
+  collections:
+    - my_namespace.my_collection
+  vars:
+    username: 'leo'
+  vars_files:
+    - /vars/external_vars.yml
 ```
 
 **hosts**
 
 ```yaml
-hosts: <pattern>    # Common patterns (thay can be combined)
+  hosts: <pattern>    # Common patterns (thay can be combined)
 
-hosts: all                        # All hosts
-hosts: host1                      # One host
-hosts: host1:host2 (host1,host2)  # Multiple hosts/groups
-hosts: all:!host1                 # All hosts/groups except one
-hosts: group1:&group2             # Any hosts in the group1 that are also in the group2
+  hosts: all                        # All hosts
+  hosts: host1                      # One host
+  hosts: host1:host2 (host1,host2)  # Multiple hosts/groups
+  hosts: all:!host1                 # All hosts/groups except one
+  hosts: group1:&group2             # Any hosts in the group1 that are also in the group2
 ```
 
 **gather_facts**
@@ -285,12 +292,12 @@ Ansible facts are data related to your remote systems.
 By default, Ansible gathers facts at the beginning of each play.
 
 ```yaml
-gather_facts: false      # Disable facts t improve performance
+  gather_facts: false      # Disable facts to improve performance (default true)
 ```
 
 ```yaml
 - name: Print all available facts
-  ansible.builtin.debug:
+  debug:
     var: ansible_facts
 ```
 
@@ -299,8 +306,8 @@ gather_facts: false      # Disable facts t improve performance
 Change the connection plugin. Lists available plugins with `ansible-doc -t connection -l`.
 
 ```yaml
-connection: local      # execute on controller
-connection: ssh        # connect via ssh client binary
+  connection: local      # execute on controller
+  connection: ssh        # connect via ssh client binary
 ```
 
 **collections**
@@ -308,6 +315,6 @@ connection: ssh        # connect via ssh client binary
 Using a collection.
 
 ```yaml
-collections:
-  - my_namespace.my_collection
+  collections:
+    - my_namespace.my_collection
 ```
