@@ -67,6 +67,7 @@ ansible-playbook myplaybook.yml                          # run the playbook for 
 ansible-playbook myplaybook.yml -l localhost,device1     # (--limit) limit selected hosts (comma separated)
 ansible-playbook myplaybook.yml -i /tmp/inventory.yml    # (--inventory) specify the inventory (comma separated)
 ansible-playbook myplaybook.yml -vvv                     # verbose mode (-v, -vvv, -vvvv)
+ansible-playbook myplaybook.yml --check                  # Check mode is just a simulation
 
 # Extra variables at runtime
 ansible-playbook myplaybook.yml -e username=leo                   # (--extra_vars) set additional variables as key=value or YAML/JSON
