@@ -260,7 +260,14 @@ Create the dir `/etc/ansible/host_vars`.
 
 # 5. Writing Playbooks
 
-## 5.1. Playbook properties
+## 5.1. Playbook keywords
+
+- Play
+- Role
+- Block
+- Task
+
+**Play**
 
 ```yaml
 - name: Sample
@@ -283,10 +290,10 @@ Create the dir `/etc/ansible/host_vars`.
 
   become: yes               # Ansible allows you to ‘become’ another user, different from the user that logged into the machine (remote user).
                             # This is done using existing privilege escalation tools such as sudo, su, pfexec, doas, pbrun, dzdo, ksu, runas, machinectl and others.
-  # become_method: su
-  # become_user: nobody       # default root
-  # become_pass:
-  # become_flags: '-s /bin/sh'
+  become_method: su
+  become_user: nobody       # default root
+  become_pass:
+  become_flags: '-s /bin/sh'
 
   service:                   # Controls services on remote hosts. Ensure the httpd service is running
     name: httpd
@@ -294,11 +301,22 @@ Create the dir `/etc/ansible/host_vars`.
 
   command:
 
-  vars:
+  vars:                      # Dictionary/map of variables
     username: 'leo'
 
-  vars_files:
+  vars_files:                # List of files that contain vars to include in the play.
     - /vars/external_vars.yml
+
+  vars_prompt                          # list of variables to prompt for
+    - name: username                   # variable name
+        prompt: What is your username? # prompt message
+        private: false                 # makes the user input visible (hidden by default)
+        default: "1.0"                 # default value
+        confirm: true                  # request confirmation
+        encrypt: sha512_crypt          # encript. (use private = true)
+        unsafe: true                   # allow special chars
+        salt_size: 7
+
 ```
 
 **ansible_facts**
