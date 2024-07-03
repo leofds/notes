@@ -262,6 +262,8 @@ Create the dir `/etc/ansible/host_vars`.
 
 ## 5.1. Playbook keywords
 
+[doc](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
+
 - Play
 - Role
 - Block
@@ -307,7 +309,7 @@ Create the dir `/etc/ansible/host_vars`.
   vars_files:                # List of files that contain vars to include in the play.
     - /vars/external_vars.yml
 
-  vars_prompt                          # list of variables to prompt for
+  vars_prompt:                         # list of variables to prompt for
     - name: username                   # variable name
         prompt: What is your username? # prompt message
         private: false                 # makes the user input visible (hidden by default)
@@ -317,6 +319,8 @@ Create the dir `/etc/ansible/host_vars`.
         unsafe: true                   # allow special chars
         salt_size: 7
 
+  tasks:
+  roles:
 ```
 
 **ansible_facts**
