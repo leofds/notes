@@ -264,85 +264,44 @@ Create the dir `/etc/ansible/host_vars`.
 
 ```yaml
 - name: Sample
-  hosts: all
-  gather_facts: false
-  connection: ssh
-  collections:
+  hosts: <pattern>          # Common patterns (they can be combined)
+                            # all - All hosts
+                            # host1 - One host
+                            # host1:host2 (host1,host2) - Multiple hosts/groups
+                            # all:!host1 - All hosts/groups except one
+                            # group1:&group2 - Any hosts in the group1 that are also in the group2
+  gather_facts: false       # Disable facts to improve performance (default true)
+  connection: <plugin>      # Change the connection plugin. Lists available plugins with `ansible-doc -t connection -l`.
+                            # ssh - connect via ssh client binary (default)
+                            # local - execute on controller
+  collections:              # Using a collection.
     - my_namespace.my_collection
-  become: yes
+  become: yes               # Ansible allows you to ‘become’ another user, different from the user that logged into the machine (remote user).
+                            # This is done using existing privilege escalation tools such as sudo, su, pfexec, doas, pbrun, dzdo, ksu, runas, machinectl and others.
+    # become: yes
+    # become_method: su
+    # become_user: nobody       # default root
+    # become_pass:
+    # become_flags: '-s /bin/sh'
+  service:                   # Controls services on remote hosts. Ensure the httpd service is running
+    name: httpd
+    state: started
+  command:
   vars:
     username: 'leo'
   vars_files:
     - /vars/external_vars.yml
 ```
 
-**hosts**
-
-```yaml
-  hosts: <pattern>    # Common patterns (thay can be combined)
-
-  hosts: all                        # All hosts
-  hosts: host1                      # One host
-  hosts: host1:host2 (host1,host2)  # Multiple hosts/groups
-  hosts: all:!host1                 # All hosts/groups except one
-  hosts: group1:&group2             # Any hosts in the group1 that are also in the group2
-```
-
-**gather_facts**
+**ansible_facts**
 
 Ansible facts are data related to your remote systems.
 By default, Ansible gathers facts at the beginning of each play.
 
 ```yaml
-  gather_facts: false      # Disable facts to improve performance (default true)
-```
-
-```yaml
 - name: Print all available facts
   debug:
     var: ansible_facts
-```
-
-**connection**
-
-Change the connection plugin. Lists available plugins with `ansible-doc -t connection -l`.
-
-```yaml
-  connection: local      # execute on controller
-  connection: ssh        # connect via ssh client binary
-```
-
-**collections**
-
-Using a collection.
-
-```yaml
-  collections:
-    - my_namespace.my_collection
-```
-
-**become**
-
-Ansible allows you to ‘become’ another user, different from the user that logged into the machine (remote user). This is done using existing privilege escalation tools such as sudo, su, pfexec, doas, pbrun, dzdo, ksu, runas, machinectl and others.
-
-```yaml
-  become: yes
-  become_method: su
-  become_user: nobody              # default root
-  become_pass:
-  become_flags: '-s /bin/sh'
-```
-
-**service**
-
-Controls services on remote hosts.
-
-```yaml
-- name: Ensure the httpd service is running
-  service:
-    name: httpd
-    state: started
-  become: yes
 ```
 
 **command**
