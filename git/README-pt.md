@@ -384,6 +384,7 @@ git cherry-pick -x <hash_commit>    # Adiciona uma mensagem "cherry picked from 
 
 ```
 git clone <url_repositorio>
+git clone <repository_url> -b <branch>
 ```
 
 **Adicionar um repositório remoto**
