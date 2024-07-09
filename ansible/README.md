@@ -77,6 +77,7 @@ ansible-inventory --list
 ```shell
 # General
 ansible-playbook myplaybook.yml                          # run the playbook for all hosts defined inside the playbook
+ansible-playbook p1.yml p2.yml                           # running multiple playbooks
 ansible-playbook myplaybook.yml -l localhost,device1     # (--limit) limit selected hosts (comma separated)
 ansible-playbook myplaybook.yml -i /tmp/inventory.yml    # (--inventory) specify the inventory (comma separated)
 ansible-playbook myplaybook.yml -vvv                     # verbose mode (-v, -vvv, -vvvv)
@@ -110,6 +111,7 @@ ansible localhost -m setup --tree facts.d/                # write facts to file
 
 ```shell
 ansible-galaxy collection install ansible.utils           # Install the collection ansible.utils
+ansible-galaxy collection list                            # List installed collections
 ```
 
 ## 3. Playbook
