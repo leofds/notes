@@ -1,5 +1,25 @@
 # Ansible
 
+[https://www.ansible.com/](https://www.ansible.com/)</br>
+Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.
+
+## Ansible concepts
+
+- **Control node (controller)** The machine from which you run the Ansible Commands. Ansible needs to be installed only on this machine.</br>
+- **Managed nodes (hosts)** Target devices you aim to manage with Ansible.</br>
+- **Inventory** List of hosts.</br>
+- **Playbook** A collection of plays. A file coded in YAML.</br>
+  - **Play** Run tasks on a host or a collection of hosts.</br>
+  - **Taks** Call functions defined as Ansible Modules (coded in Python)</br>
+  - **Roles** A reusable Ansible content (tasks, variables, ...) for user inside a Play.</br>
+  - **Handlers** Handlers are tasks that only run when notified (when the task returns a ‘changed=True’ status).</br>
+- **Modules** Usually a Python script sent to each host (when needed) to accomplish the action in each Task.</br>
+- **Plugins** Expands the Ansible's core capactibilities.</br>
+  - **Connection Plugins**</br>
+  - **Filter Plugins**</br>
+  - **Callback Plugins**</br>
+- **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
+
 ## 1. How to install on Ubuntu 24
 
 ```shell
@@ -93,7 +113,7 @@ ansible-galaxy collection install ansible.utils           # Install the collecti
 
 ## 3. Playbook
 
-Ansible Playbook File is a lists of tasks that executes for specified inventory.
+
 
 **Sample Playbook file (myplaybook.yml)**
 
@@ -106,6 +126,7 @@ Ansible Playbook File is a lists of tasks that executes for specified inventory.
       debug:
         msg: "Hello Admin"
 ```
+Running the playbook on localhost (if localhost is in the inventory)
 
 ```shell
 ansible-playbook myplaybook.yml -l localhost
@@ -300,6 +321,10 @@ ansible_python_interpreter: "/usr/bin/python3"
     name: httpd
     state: started
 
+
+
+  timeout:                   # Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.
+
   command:
 
   vars:                      # Dictionary/map of variables
@@ -318,7 +343,10 @@ ansible_python_interpreter: "/usr/bin/python3"
         unsafe: true                   # allow special chars
         salt_size: 7
 
+  block:
   tasks:
+      notify:                    # List of handlers to notify when the task returns a ‘changed=True’ status.
+
   roles:
 ```
 
