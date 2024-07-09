@@ -114,7 +114,9 @@ ansible-galaxy collection install ansible.utils           # Install the collecti
 
 ## 3. Playbook
 
+### Execution
 
+- A playbook runs in order from top to bottom, by default, each taks one at a time, against all machines of hosts in parallel. After executed on all target machines, Ansible moves on to the next task. If a task fail on a host, Ansible takes that host out of the rotation for the rest of the playbook.
 
 **Sample Playbook file (myplaybook.yml)**
 
@@ -279,6 +281,17 @@ ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
 ansible_python_interpreter: "/usr/bin/python3"
 ```
 
+### 4.6. Ansible Facts
+
+Ansible facts are data related to your remote systems.
+By default, Ansible gathers facts at the beginning of each play.
+
+```yaml
+- name: Print all available facts
+  debug:
+    var: ansible_facts
+```
+
 # 5. Writing Playbooks
 
 ## 5.1. Playbook keywords
@@ -337,13 +350,67 @@ ansible_python_interpreter: "/usr/bin/python3"
   roles:
 ```
 
-**ansible_facts**
+## 5.2. Conditionals (when)
 
-Ansible facts are data related to your remote systems.
-By default, Ansible gathers facts at the beginning of each play.
+[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
+
+Similar to `if`. The code below skipes the task.
 
 ```yaml
-- name: Print all available facts
-  debug:
-    var: ansible_facts
+- name: Sample
+  hosts: localhost
+  vars:
+    value: false
+
+  tasks:
+    - name: Test
+      debug:
+        msg: "Value is true"
+      when: value
 ```
+
+**Logic operators**
+
+```yaml
+when: status == "enabled"
+when: status != "enabled"
+when: status > 5
+when: contents.stdout == ""
+when: version | int >= 4
+when: temperature | float > 90
+when: epic or monumental | bool
+when: not epic
+when: contents.stdout.find('hi') != -1
+when: contents.rc == 127
+when: result is failed
+when: result is succeeded
+when: result is skipped
+when: result is changed
+when: foo is defined
+when: bar is undefined
+when: x is not defined
+```
+
+**Boolean operators AND/OR**
+
+```yaml
+when:
+  ansible_facts['distribution'] == "Ubuntu" and ansible_facts['distribution_major_version'] == "24"
+
+when:
+  - ansible_facts['distribution'] == "Ubuntu"
+  - ansible_facts['distribution_major_version'] == "24"
+```
+
+```yaml
+when: value == "10" or value == "5"
+```
+
+```yaml
+when: (name == "leo" and version == "5") or
+      (name == "admin" and version == "6")
+```
+
+## 5.3 loops
+
+## 5.4. Grouping tasks with blocks
