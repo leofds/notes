@@ -294,46 +294,32 @@ ansible_python_interpreter: "/usr/bin/python3"
 
 ```yaml
 - name: Sample
-
   hosts: <pattern>          # Common patterns (they can be combined)
                             # all - All hosts
                             # host1 - One host
                             # host1:host2 (host1,host2) - Multiple hosts/groups
                             # all:!host1 - All hosts/groups except one
                             # group1:&group2 - Any hosts in the group1 that are also in the group2
-
   gather_facts: false       # Disable facts to improve performance (default true)
-
   connection: <plugin>      # Change the connection plugin. Lists available plugins with `ansible-doc -t connection -l`.
                             # ssh - connect via ssh client binary (default)
                             # local - execute on controller
-
   collections:              # Using a collection.
     - my_namespace.my_collection
-
   become: yes               # Ansible allows you to ‘become’ another user, different from the user that logged into the machine (remote user).
                             # This is done using existing privilege escalation tools such as sudo, su, pfexec, doas, pbrun, dzdo, ksu, runas, machinectl and others.
   become_method: su
   become_user: nobody       # default root
   become_pass:
   become_flags: '-s /bin/sh'
-
   service:                   # Controls services on remote hosts. Ensure the httpd service is running
     name: httpd
     state: started
-
-
-
   timeout:                   # Time limit for the task to execute in, if exceeded Ansible will interrupt and fail the task.
-
-  command:
-
   vars:                      # Dictionary/map of variables
     username: 'leo'
-
   vars_files:                # List of files that contain vars to include in the play.
     - /vars/external_vars.yml
-
   vars_prompt:                         # list of variables to prompt for
     - name: username                   # variable name
         prompt: What is your username? # prompt message
