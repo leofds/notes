@@ -1,7 +1,8 @@
 # Ansible
 
-[https://www.ansible.com/](https://www.ansible.com/)</br>
-Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.
+Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>[https://www.ansible.com/](https://www.ansible.com/)</br>
+
+In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by scp.
 
 ## Ansible concepts
 
