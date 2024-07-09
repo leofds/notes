@@ -34,15 +34,7 @@ touch /etc/ansible/hosts
 mygroup:
   hosts:
     device1:
-      ansible_host: "192.168.0.10"
-      ansible_ssh_user: "leo"
-      ansible_ssh_pass: "******"
     device2:
-      ansible_host: "192.168.0.11"
-      ansible_ssh_user: "leo"
-      ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
-  vars:
-    ansible_python_interpreter: "/usr/bin/python3"
 ```
 
 ## 2. Commands
@@ -135,7 +127,7 @@ localhost                  : ok=1    changed=0    unreachable=0    failed=0    s
 
 ## 4. Variables
 
-Ansible uses `Jinja2` to access variables dynamically (`{{ variable_name }}`).
+Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}`.
 
 ```yaml
 ...
@@ -149,10 +141,9 @@ Ansible uses `Jinja2` to access variables dynamically (`{{ variable_name }}`).
 **Simple variable**
 
 ```yaml
-vars:
-  base_path: '/etc/config'
+base_path: '/etc/config'
 ```
-Referencing simple variables
+Referencing a simple variable
 ```yaml
 app_path: "{{ base_path }}"
 ```
@@ -160,27 +151,24 @@ app_path: "{{ base_path }}"
 **Multiple lines string**
 
 ```yaml
-vars:
-  message: >
-    Your long
-    string here.
+message: >
+  Your long
+  string here.
 ```
 
 ```yaml
-vars:
-  message: |
-    this is a very
-    long string
+message: |
+  this is a very
+  long string
 ```
 
 **List**
 
 ```yaml
-vars:
-  region:
-  - northeast
-  - southeast
-  - midwest
+region:
+- northeast
+- southeast
+- midwest
 ```
 Referencing list variables
 ```yaml
@@ -190,10 +178,9 @@ region: "{{ region[0] }}"
 **Dictionary**
 
 ```yaml
-var:
-  foo:
-    field1: one
-    field2: two
+foo:
+  field1: one
+  field2: two
 ```
 Referencing key:value dictionary variables
 ```yaml
@@ -256,6 +243,18 @@ Create the dir `/etc/ansible/host_vars`.
 ```shell
 /etc/ansible/host_vars/all.yml         # Variables fiel of all hosts
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
+```
+
+### 4.5. Special Variables
+
+[doc](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
+
+```yaml
+ansible_host: "192.168.0.10"
+ansible_ssh_user: "leo"
+ansible_ssh_pass: "******"
+ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
+ansible_python_interpreter: "/usr/bin/python3"
 ```
 
 # 5. Writing Playbooks
