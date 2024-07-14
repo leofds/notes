@@ -462,12 +462,13 @@ when: (name == "leo" and version == "5") or
 
 ## 6.3 loops
 
-```yaml
-- name: Sample
-  hosts: localhost
-  connection: local
-  gather_facts: false
+### 6.3.1 `loop` and `with_list`
 
+**Simple list**
+
+The `loop` will run the task once per list item.
+
+```yaml
   tasks:
     - name: Test
       debug:
@@ -476,6 +477,48 @@ when: (name == "leo" and version == "5") or
         - banana
         - apple
         - orange
+```
+
+`with_list` keyword is equivalent to `loop`.
+
+```yaml
+      with_list:
+        - banana
+        - apple
+        - orange
+```
+
+**Variables**
+
+```yaml
+loop: "{{ list_of_fruits }}"
+loop: "{{ ['banana', 'apple', 'orange'] }}"
+```
+
+**Subkeys**
+
+```yaml
+  tasks:
+    - name: Test
+      debug:
+        msg: "User {{ item.name }}"
+      loop:
+        - { name: 'user1', group: 'root' }
+        - { name: 'user2', group: 'local' }
+```
+
+**Dictionary**
+
+```yaml
+  tasks:
+    - name: Test
+      vars:
+        user_data:
+          name: 'leo'
+          group: 'root'
+      debug:
+        msg: "User {{ item.key }} = {{ item.value }}"
+      loop: "{{ user_data | dict2items }}"
 ```
 
 ## 6.4 Grouping tasks with blocks
