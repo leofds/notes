@@ -2,13 +2,13 @@
 
 Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>[https://www.ansible.com/](https://www.ansible.com/)</br>
 
-In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by scp.
+In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
 
 ## Ansible concepts
 
 - **Control node (controller)** The machine from which you run the Ansible Commands. Ansible needs to be installed only on this machine.</br>
 - **Managed nodes (hosts)** Target devices you aim to manage with Ansible.</br>
-- **Inventory** List of hosts.</br>
+- **Inventory** List of hosts and groups.</br>
 - **Playbook** A collection of plays. A file coded in YAML.</br>
   - **Play** Run tasks on a host or a collection of hosts.</br>
   - **Taks** Call functions defined as Ansible Modules (coded in Python)</br>
@@ -21,7 +21,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Callback Plugins**</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
-## 1. How to install on Ubuntu 24
+## 1 How to install on Ubuntu 24
 
 ```shell
 sudo apt update
@@ -37,7 +37,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 1.1. Creating configuration file
+### 1.1 Creating configuration file
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -45,20 +45,20 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 1.2. Creating inventory (YAML)
+### 1.2 Creating inventory (YAML)
 
 ```shell
 touch /etc/ansible/hosts
 ```
 
 ```yaml
-mygroup:
+all:
   hosts:
     device1:
     device2:
 ```
 
-## 2. Commands
+## 2 Commands
 
 **Version**
 
@@ -114,7 +114,44 @@ ansible-galaxy collection install ansible.utils           # Install the collecti
 ansible-galaxy collection list                            # List installed collections
 ```
 
-## 3. Playbook
+## 3 Inventory
+
+The default location for this file is `/etc/ansible/hosts`. You can specify a different inventory file at the command line using the -i \<path\> option or in the ansible.cfg file updating the entry `inventory=`.
+
+The most common inventory file formats are INI and YAML (preffered).
+
+Ansible has two special groups, `all` and `ungrouped`. The `all` group contains every host. The `ungrouped` group contains all hosts that don't have another group aside from `all`.
+
+### 3.1 Adding Hosts
+
+In the nventory file add the host name to a group in the `hosts:` session, eding with `:`.
+
+```yaml
+all:
+  hosts:
+    my_device:    # host name
+```
+
+### 3.2 Adding Groups
+
+In the inventory file add the group name ending with `:`.
+
+```yaml
+my_group1:      # group name
+  hosts:        # hosts of the group
+```
+
+Add to this group the session `hosts:` to specify hosts and the session `children:` to specify other groups as child of this group.
+
+```yaml
+my_group3:      # group name
+  hosts:        # hosts of the group
+  children:     # groups of the group
+    my_group1:
+    my_group2:
+```
+
+## 4 Playbook
 
 ### Execution
 
@@ -151,7 +188,7 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-## 4. Variables
+## 5 Variables
 
 Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}`.
 
@@ -162,7 +199,7 @@ Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}
     msg: "Hello {{ username }}"
 ```
 
-### 4.1. Variable types
+### 5.1 Variable types
 
 **Simple variable**
 
@@ -214,7 +251,7 @@ field: "{{ foo['field1'] }}"
 field: "{{ foo.field1 }}"
 ```
 
-### 4.2. Variables in the Playbook file (.yml)
+### 5.2 Variables in the Playbook file (.yml)
 
 ```yml
 - name: Sample Playbook
@@ -231,14 +268,14 @@ field: "{{ foo.field1 }}"
         username: 'leo'
 ```
 
-### 4.3. External Variables file (.yml)
+### 5.3 External Variables file (.yml)
 
 ```yml
 username: 'leo'
 password: '*****'
 ```
 
-### 4.4. Inventory Variables
+### 5.4 Inventory Variables
 
 ```yaml
 mygroup:
@@ -249,7 +286,7 @@ mygroup:
     dummy: "superserver"    # group variable
 ```
 
-### 4.4. group_vars & host_vars
+### 5.4 group_vars & host_vars
 
 group_vars/host_vars variables files are automatically loaded when running a playbook. 
 
@@ -271,7 +308,7 @@ Create the dir `/etc/ansible/host_vars`.
 /etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
 ```
 
-### 4.5. Special Variables
+### 5.5 Special Variables
 
 [doc](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
@@ -283,7 +320,7 @@ ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
 ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-### 4.6. Ansible Facts
+### 5.6 Ansible Facts
 
 Ansible facts are data related to your remote systems.
 By default, Ansible gathers facts at the beginning of each play.
@@ -294,9 +331,9 @@ By default, Ansible gathers facts at the beginning of each play.
     var: ansible_facts
 ```
 
-# 5. Writing Playbooks
+# 6 Writing Playbooks
 
-## 5.1. Playbook keywords
+## 6.1 Playbook keywords
 
 [doc](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 
@@ -352,7 +389,7 @@ By default, Ansible gathers facts at the beginning of each play.
   roles:
 ```
 
-## 5.2. Conditionals (when)
+## 6.2 Conditionals (when)
 
 [docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
@@ -413,6 +450,6 @@ when: (name == "leo" and version == "5") or
       (name == "admin" and version == "6")
 ```
 
-## 5.3 loops
+## 6.3 loops
 
-## 5.4. Grouping tasks with blocks
+## 6.4 Grouping tasks with blocks
