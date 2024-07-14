@@ -54,8 +54,8 @@ touch /etc/ansible/hosts
 ```yaml
 all:
   hosts:
-    device1:
-    device2:
+    device1:    # name of remote host 1
+    device2:    # name of remote host 2
 ```
 
 ## 2 Commands
@@ -129,7 +129,12 @@ In the nventory file add the host name to a group in the `hosts:` session, eding
 ```yaml
 all:
   hosts:
-    my_device:    # host name
+    localhost:
+      connection: local
+    device1:
+      ansible_host: "192.168.0.10"
+      ansible_ssh_user: "leo"
+      ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
 ```
 
 ### 3.2 Adding Groups
@@ -162,16 +167,17 @@ my_group3:      # group name
 ```yaml
 - name: Sample Playbook
   hosts: all
+  gather_facts: false     # Disable facts (optional)
 
   tasks:
     - name: Display a debug message
       debug:
         msg: "Hello Admin"
 ```
-Running the playbook on localhost (if localhost is in the inventory)
+Running the playbook on device1 (if device1 is in the inventory)
 
 ```shell
-ansible-playbook myplaybook.yml -l localhost
+ansible-playbook myplaybook.yml -l device1
 ```
 
 **output**
@@ -180,13 +186,17 @@ ansible-playbook myplaybook.yml -l localhost
 PLAY [Sample PLaybook] ***********************************************************************************************************************************************
 
 TASK [Display a debug message] ***************************************************************************************************************************************
-ok: [localhost] => {
+ok: [device1] => {
     "msg": "Welcome Admin"
 }
 
 PLAY RECAP ***********************************************************************************************************************************************************
-localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+device1                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
+
+### 4.1 Runnig playbook locally (localhost)
+
+Set the connection plugin to `local` (prefered) or exchange the SSH key locally. (`cat "${HOME}/.ssh/id_ed25519.pub" >> "${HOME}/.ssh/authorized_keys"`)
 
 ## 5 Variables
 
@@ -451,5 +461,21 @@ when: (name == "leo" and version == "5") or
 ```
 
 ## 6.3 loops
+
+```yaml
+- name: Sample
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Test
+      debug:
+        msg: "Fruit is {{ item }}"
+      loop:
+        - banana
+        - apple
+        - orange
+```
 
 ## 6.4 Grouping tasks with blocks
