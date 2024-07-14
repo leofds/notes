@@ -51,11 +51,19 @@ ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 touch /etc/ansible/hosts
 ```
 
+Example for localhost and one remote host called device1.
+
 ```yaml
 all:
   hosts:
-    device1:    # name of remote host 1
-    device2:    # name of remote host 2
+    localhost:
+      ansible_connection: local
+    device1:
+      ansible_host: "192.168.0.10"
+      ansible_ssh_user: "leo"
+      ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
 ```
 
 ## 2 Commands
@@ -124,17 +132,13 @@ Ansible has two special groups, `all` and `ungrouped`. The `all` group contains 
 
 ### 3.1 Adding Hosts
 
-In the nventory file add the host name to a group in the `hosts:` session, eding with `:`.
+In the inventory file add the host name to a group in the `hosts:` session, eding with `:`.
 
 ```yaml
 all:
   hosts:
-    localhost:
-      connection: local
-    device1:
-      ansible_host: "192.168.0.10"
-      ansible_ssh_user: "leo"
-      ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
+    device1:    # host name
+    device2:    # host name
 ```
 
 ### 3.2 Adding Groups
@@ -341,6 +345,24 @@ By default, Ansible gathers facts at the beginning of each play.
     var: ansible_facts
 ```
 
+## 5.6 Registering variables
+
+[docs](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
+
+A variable can be created from the Task output with the keyword `register`.
+
+```yaml
+- hosts: all
+  tasks:
+    - name: Runs a shell command registering the output to a variable
+      shell: whoami
+      register: cmd_output
+
+    - name: Reads the variable
+      debug:
+        msg: "Output: {{ cmd_output.stdout }}, return code: {{ cmd_output.rc }}"
+```
+
 # 6 Writing Playbooks
 
 ## 6.1 Playbook keywords
@@ -395,6 +417,8 @@ By default, Ansible gathers facts at the beginning of each play.
   block:
   tasks:
       notify:                    # List of handlers to notify when the task returns a ‘changed=True’ status.
+      ignore_errors:             # Boolean to ignore the task failures and continue with the play.
+      failed_when:               # Conditional expression that overrides the task 'failed' status.
 
   roles:
 ```
@@ -462,7 +486,9 @@ when: (name == "leo" and version == "5") or
 
 ## 6.3 loops
 
-### 6.3.1 `loop` and `with_list`
+[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
+
+### 6.3.1 `loop`
 
 **Simple list**
 
