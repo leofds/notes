@@ -125,7 +125,7 @@ ansible-galaxy collection list                            # List installed colle
 
 ## 3 Inventory
 
-[doc](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
+[[doc]](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
 
 The default location for this file is `/etc/ansible/hosts`. You can specify a different inventory file at the command line using the -i \<path\> option or in the ansible.cfg file updating the entry `inventory=`.
 
@@ -207,7 +207,7 @@ Set the connection plugin to `local` (prefered) or exchange the SSH key locally.
 
 ## 5 Variables
 
-[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html)
 
 Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}`.
 
@@ -329,7 +329,7 @@ Create the dir `/etc/ansible/host_vars`.
 
 ### 5.5 Special Variables
 
-[doc](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
+[[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
 ```yaml
 ansible_host: "192.168.0.10"
@@ -352,7 +352,7 @@ By default, Ansible gathers facts at the beginning of each play.
 
 ## 5.6 Registering variables
 
-[doc](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
+[[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
 
 A variable can be created from the Task output with the keyword `register`.
 
@@ -372,7 +372,7 @@ A variable can be created from the Task output with the keyword `register`.
 
 ## 6.1 Keywords
 
-[doc](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
+[[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 
 - Play
 - Role
@@ -439,7 +439,7 @@ A variable can be created from the Task output with the keyword `register`.
 
 ### 6.2.1 Conditionals (when)
 
-[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
 Similar to `if`. The code below skipes the task.
 
@@ -500,7 +500,7 @@ when: (name == "leo" and version == "5") or
 
 ### 6.2.2 loops
 
-[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
 
 ### 6.2.2.1 loop
 
@@ -577,7 +577,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
 
 ## 6.3 Blocks
 
-[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
 
 A block is a group of tasks. All taks in the block inherit the block directives.
 
@@ -628,7 +628,7 @@ No matter what the task status in the block is, the tasks in the sessions `alway
 
 ## 6.4 Handlers
 
-[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html)
 
 Handlers are tasks that only run when notified. Usually when a task made a change in a machine.
 
@@ -642,4 +642,35 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
   handlers:
     - name: Restart service
       # ...
+```
+
+# 7 Roles
+
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
+
+Roles are a reusable Ansible content (tasks, variables, ...) for user inside a Play.
+
+An Ansible role has a defined directory structure with seven main standard directories. You must include at least one of these directories in each role. You can omit any directories the role does not use.
+
+```
+roles/
+    common/               # this hierarchy represents a "role"
+        tasks/            #
+            main.yml      #  <-- tasks file can include smaller files if warranted
+        handlers/         #
+            main.yml      #  <-- handlers file
+        templates/        #  <-- files for use with the template resource
+            ntp.conf.j2   #  <------- templates end in .j2
+        files/            #
+            bar.txt       #  <-- files for use with the copy resource
+            foo.sh        #  <-- script files for use with the script resource
+        vars/             #
+            main.yml      #  <-- variables associated with this role
+        defaults/         #
+            main.yml      #  <-- default lower priority variables for this role
+        meta/             #
+            main.yml      #  <-- role dependencies
+        library/          # roles can also include custom modules
+        module_utils/     # roles can also include custom module_utils
+        lookup_plugins/   # or other types of plugins, like lookup in this case
 ```
