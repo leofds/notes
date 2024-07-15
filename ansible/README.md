@@ -14,6 +14,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Taks** Call functions defined as Ansible Modules (coded in Python)</br>
   - **Roles** A reusable Ansible content (tasks, variables, ...) for user inside a Play.</br>
   - **Handlers** Handlers are tasks that only run when notified (when the task returns a ‘changed=True’ status).</br>
+- **Variables** Variables store and retrieve values that can be referenced in playbooks, roles, templates and other Ansible components.
 - **Modules** Usually a Python script sent to each host (when needed) to accomplish the action in each Task.</br>
 - **Plugins** Expands the Ansible's core capactibilities.</br>
   - **Connection Plugins**</br>
@@ -124,6 +125,8 @@ ansible-galaxy collection list                            # List installed colle
 
 ## 3 Inventory
 
+[doc](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
+
 The default location for this file is `/etc/ansible/hosts`. You can specify a different inventory file at the command line using the -i \<path\> option or in the ansible.cfg file updating the entry `inventory=`.
 
 The most common inventory file formats are INI and YAML (preffered).
@@ -160,7 +163,7 @@ my_group3:      # group name
     my_group2:
 ```
 
-## 4 Playbook
+## 4 Introducing Playbooks
 
 ### Execution
 
@@ -203,6 +206,8 @@ device1                    : ok=1    changed=0    unreachable=0    failed=0    s
 Set the connection plugin to `local` (prefered) or exchange the SSH key locally. (`cat "${HOME}/.ssh/id_ed25519.pub" >> "${HOME}/.ssh/authorized_keys"`)
 
 ## 5 Variables
+
+[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html)
 
 Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}`.
 
@@ -363,7 +368,9 @@ A variable can be created from the Task output with the keyword `register`.
         msg: "Output: {{ result.stdout }}, return code: {{ result.rc }}"
 ```
 
-# 6 Playbook keywords
+# 6 Playbooks
+
+## 6.1 Keywords
 
 [doc](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 
@@ -414,17 +421,23 @@ A variable can be created from the Task output with the keyword `register`.
 
   block:
   tasks:
+  handlers:
+  roles:
+```
+
+**Play**
+
+```yaml
+  tasks:
       notify:                    # List of handlers to notify when the task returns a ‘changed=True’ status.
       ignore_errors:             # Boolean to ignore the task failures and continue with the play.
       failed_when:               # Conditional expression that overrides the task 'failed' status.
       changed_when:              # with true: the task is always resported as changed
-
-  roles:
 ```
 
-# 7 Tasks
+## 6.2 Tasks
 
-## 7.1 Conditionals (when)
+### 6.2.1 Conditionals (when)
 
 [doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
@@ -485,11 +498,11 @@ when: (name == "leo" and version == "5") or
       (name == "admin" and version == "6")
 ```
 
-## 7.2 loops
+### 6.2.2 loops
 
 [doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
 
-### 7.2.1 loop
+### 6.2.2.1 loop
 
 **Simple list**
 
@@ -548,7 +561,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
       loop: "{{ user_data | dict2items }}"
 ```
 
-### 7.2.2 loop control
+#### 6.2.2.2 loop control
 
 **Until condition**
 
@@ -562,7 +575,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
       delay: 1
 ```
 
-# 8 Blocks
+## 6.3 Blocks
 
 [doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
 
@@ -581,7 +594,7 @@ A block is a group of tasks. All taks in the block inherit the block directives.
       when: ansible_facts['distribution'] == 'Ubuntu'
 ```
 
-## 8.1 Handling tasks failures with `rescue`
+### 6.3.1 Handling tasks failures with `rescue`
 
 Similar to exception handling in many programming languages, `rescue` block specify tasks to run when a task in the block fails.
 
@@ -597,7 +610,7 @@ Similar to exception handling in many programming languages, `rescue` block spec
             msg: 'Error'
 ```
 
-## 8.2 `always` section
+### 6.3.2 `always` section
 
 No matter what the task status in the block is, the tasks in the sessions `always` are always executed after the block tasks.
 
@@ -613,7 +626,7 @@ No matter what the task status in the block is, the tasks in the sessions `alway
             msg: 'This always executes'
 ```
 
-# 9. Handlers
+## 6.4 Handlers
 
 [doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html)
 
