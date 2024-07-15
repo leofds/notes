@@ -347,7 +347,7 @@ By default, Ansible gathers facts at the beginning of each play.
 
 ## 5.6 Registering variables
 
-[docs](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
+[doc](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
 
 A variable can be created from the Task output with the keyword `register`.
 
@@ -417,15 +417,16 @@ A variable can be created from the Task output with the keyword `register`.
       notify:                    # List of handlers to notify when the task returns a ‘changed=True’ status.
       ignore_errors:             # Boolean to ignore the task failures and continue with the play.
       failed_when:               # Conditional expression that overrides the task 'failed' status.
+      changed_when:              # with true: the task is always resported as changed
 
   roles:
 ```
 
-# 7 tasks
+# 7 Tasks
 
 ## 7.1 Conditionals (when)
 
-[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
+[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
 Similar to `if`. The code below skipes the task.
 
@@ -486,7 +487,7 @@ when: (name == "leo" and version == "5") or
 
 ## 7.2 loops
 
-[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
+[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
 
 ### 7.2.1 loop
 
@@ -563,7 +564,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
 
 # 8 Blocks
 
-[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
+[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
 
 A block is a group of tasks. All taks in the block inherit the block directives.
 
@@ -610,4 +611,22 @@ No matter what the task status in the block is, the tasks in the sessions `alway
         - name: Always do this
           debug:
             msg: 'This always executes'
+```
+
+# 9. Handlers
+
+[doc](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html)
+
+Handlers are tasks that only run when notified. Usually when a task made a change in a machine.
+
+```yaml
+  tasks:
+    - name: Install service
+      # ...
+      notify:
+        - Restart service
+
+  handlers:
+    - name: Restart service
+      # ...
 ```
