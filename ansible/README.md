@@ -356,16 +356,14 @@ A variable can be created from the Task output with the keyword `register`.
   tasks:
     - name: Runs a shell command registering the output to a variable
       shell: whoami
-      register: cmd_output
+      register: result
 
     - name: Reads the variable
       debug:
-        msg: "Output: {{ cmd_output.stdout }}, return code: {{ cmd_output.rc }}"
+        msg: "Output: {{ result.stdout }}, return code: {{ result.rc }}"
 ```
 
-# 6 Writing Playbooks
-
-## 6.1 Playbook keywords
+# 6 Playbook keywords
 
 [doc](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 
@@ -423,7 +421,9 @@ A variable can be created from the Task output with the keyword `register`.
   roles:
 ```
 
-## 6.2 Conditionals (when)
+# 7 tasks
+
+## 7.1 Conditionals (when)
 
 [docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
@@ -484,11 +484,11 @@ when: (name == "leo" and version == "5") or
       (name == "admin" and version == "6")
 ```
 
-## 6.3 loops
+## 7.2 loops
 
 [docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
 
-### 6.3.1 `loop`
+### 7.2.1 loop
 
 **Simple list**
 
@@ -547,4 +547,67 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
       loop: "{{ user_data | dict2items }}"
 ```
 
-## 6.4 Grouping tasks with blocks
+### 7.2.2 loop control
+
+**Until condition**
+
+```yaml
+  tasks:
+    - name: Test
+      shell: /usr/bin/foo
+      register: result
+      until: result.stdout.find("all systems go") != -1
+      retries: 3
+      delay: 1
+```
+
+# 8 Blocks
+
+[docs](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
+
+A block is a group of tasks. All taks in the block inherit the block directives.
+
+```yaml
+  tasks:
+    - name: Install, Setup, Start
+      block:
+        - name: Install
+          # ...
+        - name: Setup
+          # ...
+        - name: Start
+          # ...
+      when: ansible_facts['distribution'] == 'Ubuntu'
+```
+
+## 8.1 Handling tasks failures with `rescue`
+
+Similar to exception handling in many programming languages, `rescue` block specify tasks to run when a task in the block fails.
+
+```yaml
+  tasks:
+    - name: Handle the error
+      block:
+        - name: Some command
+          # ...
+      rescue:
+        - name: Print errors
+          debug:
+            msg: 'Error'
+```
+
+## 8.2 `always` section
+
+No matter what the task status in the block is, the tasks in the sessions `always` are always executed after the block tasks.
+
+```yaml
+  tasks:
+    - name: Always do
+      block:
+        - name: Some command
+          # ...
+      always:
+        - name: Always do this
+          debug:
+            msg: 'This always executes'
+```
