@@ -777,7 +777,7 @@ The behavior is the same as using the roles keyword.
 
 [[doc]](https://docs.ansible.com/ansible/latest/vault_guide/index.html)
 
-Ansible Vault is a feature of ansible that allows you to keep sensitive data such as passwords or keys in encrypted files or variables, it can encrypt any data file used by Ansible. To use Ansible Vault you need one or more passwords to encrypt or decrypt content.
+Ansible Vault is a feature of Ansible that allows you to keep sensitive data such as passwords or keys in encrypted files or variables, it can encrypt any data file used by Ansible. To use Ansible Vault you need one or more passwords to encrypt or decrypt content.
 
 ## 8.1 Vault Password
 

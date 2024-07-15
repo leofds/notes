@@ -1,4 +1,4 @@
-This repository contains a list of useful Git commands. Select the language: [English](https://github.com/leofds/notes/blob/master/git/README.md), [Portuguese](https://github.com/leofds/notes/blob/master/git/README-pt.md)
+This repository contains a list of useful Git commands. Select the language: [English](https://github.com/leofds/notes/blob/master/git/git.md), [Portuguese](https://github.com/leofds/notes/blob/master/git/git-pt.md)
 
 # Git
 
