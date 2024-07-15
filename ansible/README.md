@@ -650,8 +650,7 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
 
 ## 6.5 Re-using Ansible artifacts
 
-[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/
-playbooks_reuse.html)
+[[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html)
 
 ```yaml
 - import_playbook: myplaybook1.yml
