@@ -1,6 +1,10 @@
 # Ansible
 
-Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>[https://www.ansible.com/](https://www.ansible.com/)</br>
+Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>
+
+Web Page: [https://www.ansible.com/](https://www.ansible.com/)</br>
+Documentation: [https://docs.ansible.com/](https://docs.ansible.com/)</br>
+GitHub: [https://github.com/ansible/ansible](https://github.com/ansible/ansible)</br>
 
 In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
 
@@ -673,4 +677,69 @@ roles/
         library/          # roles can also include custom modules
         module_utils/     # roles can also include custom module_utils
         lookup_plugins/   # or other types of plugins, like lookup in this case
+```
+
+Default locations:
+- in collections, if you are using them
+- in a directory called roles/, relative to the playbook file
+- in the configured roles_path. The default search path is `~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles`.
+- in the directory where the playbook file is located
+
+You can store the roles in a different location settings `roles_path` in the ansible.cfg
+
+## 7.1 Creating a role (task)
+
+`/etc/ansible/roles/example/tasks/main.yml`
+
+```yaml
+- name: Install service
+  # ....
+```
+
+## 7.2 Using roles
+
+## 7.2.1 Play level
+
+Roles in the session roles run before any other tasks in a play.
+
+```yaml
+- hosts: all
+  roles:
+    - role: '/etc/ansible/roles/example'
+```
+
+```yaml
+- hosts: all
+  roles:
+    - example
+    - common:
+      vars:
+        dir: '/opt/a'
+        app_port: 5000
+```
+
+## 7.2.2 Task level
+
+**Including roles: dynamic use**
+
+The roles in tasks run in the order they are defined. Variables can be defined in the runtime.
+
+```yaml
+- hosts: all
+  tasks:
+    - name: Include the example role
+      include_role:
+        name: example
+```
+
+**Including roles: static use**
+
+The behavior is the same as using the roles keyword.
+
+```yaml
+- hosts: all
+  tasks:
+    - name: Import the example role
+      import_role:
+        name: example
 ```
