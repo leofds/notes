@@ -111,7 +111,7 @@ ansible-playbook myplaybook.yml --skip-tags              # only run plays and ta
 
 # Vault pass
 ansible-playbook myplaybook.yml --ask-vault-pass         # ask for vault password
-ansible-playbook myplaybook.yml --vault-password-file    # vault password file
+ansible-playbook myplaybook.yml --vault-password-file pass_file    # vault password file
 ```
 
 **Run Module**
@@ -774,6 +774,21 @@ The behavior is the same as using the roles keyword.
 ```
 
 # 8 Vault
+
+[[doc]](https://docs.ansible.com/ansible/latest/vault_guide/index.html)
+
+Ansible Vault is a feature of ansible that allows you to keep sensitive data such as passwords or keys in encrypted files or variables, it can encrypt any data file used by Ansible. To use Ansible Vault you need one or more passwords to encrypt or decrypt content.
+
+## 8.1 Vault Password
+
+Running any `ansible-vault` command or a playbook that uses some encrypted content, you will prompted for a password.
+
+The vault password can be stored:
+- In a file:
+  - Adding to the command line the argument `--vault-password-file /path/to/vault_password`.
+  - Setting the file path in the ansible.cfg file updating the entry `vault_password_file=`.
+  - Setting the file path in the environment variable `ANSIBLE_VAULT_PASSWORD_FILE`.
+- In a third-party tools with client scripts.
 
 # 9 Modules
 
