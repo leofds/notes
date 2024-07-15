@@ -19,6 +19,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Roles** A reusable Ansible content (tasks, variables, ...) for user inside a Play.</br>
   - **Handlers** Handlers are tasks that only run when notified (when the task returns a ‘changed=True’ status).</br>
 - **Variables** Variables store and retrieve values that can be referenced in playbooks, roles, templates and other Ansible components.
+- **Vault** Ansible Vault is a feature of ansible that allows you to keep sensitive data such as passwords or keys in encrypted files.
 - **Modules** Usually a Python script sent to each host (when needed) to accomplish the action in each Task.</br>
 - **Plugins** Expands the Ansible's core capactibilities.</br>
   - **Connection Plugins**</br>
@@ -125,6 +126,18 @@ ansible localhost -m setup --tree facts.d/                # write facts to file
 ```shell
 ansible-galaxy collection install ansible.utils           # Install the collection ansible.utils
 ansible-galaxy collection list                            # List installed collections
+```
+
+**Vault**
+
+```shell
+ansible-vault create myfile.yml                     # Create new vault encrypted file
+ansible-vault decrypt myfile.yml                    # Decrypt vault encrypted file
+ansible-vault edit myfile.yml                       # Edit vault encrypted file
+ansible-vault view myfile.yml                       # View vault encrypted file
+ansible-vault encrypt myfile.yml                    # Encrypt YAML file
+ansible-vault encrypt_string 'value' --name 'key'   # Encrypt a string
+ansible-vault rekey myfile.yml                      # Re-key a vault encrypted file
 ```
 
 ## 3 Inventory
@@ -318,8 +331,7 @@ group_vars/host_vars variables files are automatically loaded when running a pla
 Create the dir `/etc/ansible/group_vars`. 
 
 ```shell
-/etc/ansible/group_vars/all.yml       # Variables fiel of all groups
-/etc/ansible/group_vars/mygroup.yml   # Variables fiel of the group called mygroups
+/etc/ansible/group_vars/mygroup   # can optionally end in '.yml', '.yaml', or '.json'
 ```
 
 **host_vars**
@@ -327,8 +339,16 @@ Create the dir `/etc/ansible/group_vars`.
 Create the dir `/etc/ansible/host_vars`. 
 
 ```shell
-/etc/ansible/host_vars/all.yml         # Variables fiel of all hosts
-/etc/ansible/host_vars/localhost.yml   # Variables fiel of the host called localhost
+/etc/ansible/host_vars/localhost   # Variables file of localhost
+```
+
+**Multiple files for a host/group**
+
+Create directories named instead of a file. Ansible will read all the files in these directories.
+
+```yaml
+/etc/ansible/group_vars/mygroup/network_settings
+/etc/ansible/group_vars/mygroup/cluster_settings
 ```
 
 ### 5.5 Special Variables
@@ -752,3 +772,17 @@ The behavior is the same as using the roles keyword.
       import_role:
         name: example
 ```
+
+# 8 Vault
+
+# 9 Modules
+
+# 10 Plugins
+
+## 10.1 Connection Plugins
+
+## 10.2 Filter Plugins
+
+## 10.3 Callback Plugins
+
+# 11 Collections
