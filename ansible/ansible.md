@@ -785,10 +785,16 @@ Running any `ansible-vault` command or a playbook that uses some encrypted conte
 
 The vault password can be stored:
 - In a file:
-  - Adding to the command line the argument `--vault-password-file /path/to/vault_password`.
+  - Adding the argument `--vault-password-file /path/to/vault_password` to the command line.
   - Setting the file path in the ansible.cfg file updating the entry `vault_password_file=`.
   - Setting the file path in the environment variable `ANSIBLE_VAULT_PASSWORD_FILE`.
 - In a third-party tools with client scripts.
+  - `ansible-playbook --vault-password-file client.py`
+  - `ansible-playbook --vault-id dev@client.py`
+
+To enforce password prompt, add the argument `--ask-vault-pass` to the command line.
+
+
 
 # 9 Modules
 
@@ -801,3 +807,5 @@ The vault password can be stored:
 ## 10.3 Callback Plugins
 
 # 11 Collections
+
+# Template
