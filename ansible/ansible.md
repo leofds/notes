@@ -796,14 +796,58 @@ The vault password can be stored:
 
 To enforce password prompt, add the argument `--ask-vault-pass` to the command line.
 
-## 8.2 Encrypting files
+## 8.2 Variable-level encryption
 
-File-level encryption is easy to use and allow password rotation with `rekey`, but all the file content will be encrypted, you wil not 
-be able to read the variables name without decrypt it for instance.
+Variable-level encryption only works with variables and keeps your files still legible. You can mix plaintext and encrypted variables. However, password rotation is not possible to do with the `rekey` command.
 
-**Example:** Encrypting a variable file:
+### 8.2.1 Encrypting variables
 
-Variable file content:
+**Example**: Encrypting the string '1234' using the variable name 'my_secret'
+
+Command:
+
+```yaml
+ansible-vault encrypt_string '1234' --name 'my_secret'
+```
+
+Output:
+
+```yaml
+my_secret: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          30656465653266303161616131336562316661656331356231633330343131626264643864313335
+          3031656537383066363337383964646462383938336630650a626330633762356266313366373464
+          62386332653766316462343530323832303432353738313265633766653263633035313034313963
+          3138613132386239660a383365393161323363383061353866656639633732326465336261646662
+          6239
+```
+
+### 8.2.1 Viewing encrypted variables
+
+You can view the original value using the debug module.
+
+Command:
+
+```yaml
+ansible localhost -m ansible.builtin.debug -a var="my_secret" -e "@variables.yml" --ask-vault-pass
+```
+
+Output:
+
+```yaml
+localhost | SUCCESS => {
+    "my_secret": "1234"
+}
+```
+
+## 8.3 File-level encryption 
+
+File-level encryption is easy to use, encrypting variables, tasks, or other Ansible content files. It also allows password rotation with `rekey`, but all the file content will be encrypted, you will not 
+be able to read the variable name without decrypting it for instance. 
+
+### 8.3.1 Encrypting files
+
+Variable file content (variables.yml):
 ```yaml
 username: 'leo'
 password: '1234'
@@ -811,7 +855,8 @@ password: '1234'
 
 Command:
 ```yaml
-ansible-vault encrypt myvars.yml
+ansible-vault encrypt variables.yml      # Encrypt an existing file
+ansible-vault create variables.yml       # Optionaly this command open a text editor creating a new encrypted file
 ```
 
 Encrypted file content:
@@ -825,12 +870,18 @@ $ANSIBLE_VAULT;1.1;AES256
 3166353736346239346166346166393530373532616231343530
 ```
 
-Extra commands:
+### 8.3.2 Decrypting files
+
 ```yaml
-ansible-vault decrypt myvars.yml      # Decrypt the entire file
-ansible-vault view myvars.yml         # View the content decrypted
-ansible-vault edit myvars.yml         # Open a editor to edit content file
-ansible-vault rekey myvars.yml        # Change the ecryption key
+ansible-vault decrypt variables.yml      # Decrypt the entire file
+ansible-vault view variables.yml         # View the content decrypted
+ansible-vault edit variables.yml         # Open a editor to edit the 
+```
+
+### 8.3.2 Rotating password
+
+```yaml
+ansible-vault rekey variables.yml        # Change the ecryption key
 ```
 
 # 9 Modules
