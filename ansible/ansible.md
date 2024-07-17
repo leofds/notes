@@ -1,3 +1,11 @@
+
+# Summary
+
+1. [Ansible concepts](#ansible_concepts)<br>
+2. [How to install on Ubuntu 24](#install_ubuntu24)<br>
+  2.1 [Creating configuration file](#creating_conf_file)<br>
+  2.2 [Creating inventory (YAML)](#session_1-2)<br>
+
 # Ansible
 
 Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>
@@ -8,7 +16,7 @@ GitHub: [https://github.com/ansible/ansible](https://github.com/ansible/ansible)
 
 In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
 
-## Ansible concepts
+# 1. Ansible concepts <a name="ansible_concepts"></a>
 
 - **Control node (controller)** The machine from which you run the Ansible Commands. Ansible needs to be installed only on this machine.</br>
 - **Managed nodes (hosts)** Target devices you aim to manage with Ansible.</br>
@@ -27,7 +35,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Callback Plugins**</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
-## 1 How to install on Ubuntu 24
+## 1 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
 
 ```shell
 sudo apt update
@@ -43,7 +51,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 1.1 Creating configuration file
+### 1.1 Creating configuration file <a name="creating_conf_file"></a>
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -51,7 +59,7 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 1.2 Creating inventory (YAML)
+### 1.2 Creating inventory (YAML) <a name="session_1-2"></a>
 
 ```shell
 touch /etc/ansible/hosts
@@ -72,7 +80,7 @@ all:
     ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-## 2 Commands
+## 2 Commands <a name="session_2"></a>
 
 **Version**
 
