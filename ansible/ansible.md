@@ -24,8 +24,37 @@ GitHub: https://github.com/ansible/ansible<br>
   7.1. [Variable types](#variables_types)<br>
   7.2. [Variables in the Playbook file (.yml)](#variables_in_playbooks)<br>
   7.3. [External Variables file (.yml)](#external_variables_file)<br>
-  7.4. [group_vars & host_vars](#group_host_vars)<br>
-  7.4. [Special Variables](#special_variables)<br>
+  7.4. [Inventory Variables](#inventory_variables)<br>
+  7.5. [group_vars & host_vars](#group_host_vars)<br>
+  7.6. [Special Variables](#special_variables)<br>
+  7.7. [Ansible Facts](#ansible_facts)<br>
+  7.8. [Registering variables](#registering_variables)<br>
+8. [Playbooks](#playbooks)<br>
+  8.1. [Keywords](#playbooks_keywords)<br>
+  8.2. [Tasks](#playbooks_tasks)<br>
+    8.2.1. [Conditionals (when)](#playbooks_conditionals)<br>
+    8.2.2. [Loops](#loops)<br>
+      8.2.2.1. [Loop](#loop)<br>
+      8.2.2.2. [Loop control](#loop_control)<br>
+  8.3. [Blocks](#blocks)<br>
+    8.3.1. [Handling tasks failures with `rescue`](#blocks_rescue)<br>
+    8.3.2. [`always` section](#blocks_always)<br>
+  8.4. [Handlers](#handlers)<br>
+  8.5. [Re-using Ansible artifacts](#reusing_playbooks)<br>
+9. [Roles](#roles)<br>
+  9.1. [Creating a role (task)](#creating_roles)<br>
+  9.2. [Using roles](#using_roles)<br>
+    9.2.1. [Play level](#roles_play_level)<br>
+    9.2.2. [Task level](#roles_task_level)<br>
+10. [Vault](#vault)<br>
+  10.1. [Vault Password](#vault_password)<br>
+  10.2. [Variable-level encryption](#vault_variable_level)<br>
+    10.2.1. [Encrypting variables](#vault_variable_encryption)<br>
+    10.2.2. [Viewing encrypted variables](#view_encryt_variable)<br>
+  10.3. [File-level encryption](#vault_file_level)<br>
+    10.3.1. [Encrypting files](#vault_encrypting_files)<br>
+    10.3.2. [Decrypting files](#vault_decrypting_files)<br>
+    10.3.3. [Rotating password](#vault_rotating_password)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -52,7 +81,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Callback Plugins**</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
-## 3 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
+# 3 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
 
 ```shell
 sudo apt update
@@ -68,7 +97,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 3.1 Creating configuration file <a name="creating_conf_file"></a>
+## 3.1 Creating configuration file <a name="creating_conf_file"></a>
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -76,7 +105,7 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 3.2 Creating inventory (YAML) <a name="creating_inventory"></a>
+## 3.2 Creating inventory (YAML) <a name="creating_inventory"></a>
 
 ```shell
 touch /etc/ansible/hosts
@@ -97,7 +126,7 @@ all:
     ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-## 4 Commands <a name="commands"></a>
+# 4 Commands <a name="commands"></a>
 
 **Version**
 
@@ -165,7 +194,7 @@ ansible-vault encrypt_string 'value' --name 'key'   # Encrypt a string
 ansible-vault rekey myfile.yml                      # Re-key a vault encrypted file
 ```
 
-## 5 Inventory <a name="inventory"></a>
+# 5 Inventory <a name="inventory"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
 
@@ -175,7 +204,7 @@ The most common inventory file formats are INI and YAML (preffered).
 
 Ansible has two special groups, `all` and `ungrouped`. The `all` group contains every host. The `ungrouped` group contains all hosts that don't have another group aside from `all`.
 
-### 5.1 Adding Hosts <a name="add_hosts"></a>
+# 5.1 Adding Hosts <a name="add_hosts"></a>
 
 In the inventory file add the host name to a group in the `hosts:` session, eding with `:`.
 
@@ -186,7 +215,7 @@ all:
     device2:    # host name
 ```
 
-### 5.2 Adding Groups <a name="add_groups"></a>
+# 5.2 Adding Groups <a name="add_groups"></a>
 
 In the inventory file add the group name ending with `:`.
 
@@ -205,7 +234,7 @@ my_group3:      # group name
     my_group2:
 ```
 
-## 6 Introducing Playbooks <a name="intro_playbooks"></a>
+# 6 Introducing Playbooks <a name="intro_playbooks"></a>
 
 ### Execution
 
@@ -243,11 +272,11 @@ PLAY RECAP *********************************************************************
 device1                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-### 6.1 Runnig playbook locally (localhost) <a name="run_playbooks"></a>
+# 6.1 Runnig playbook locally (localhost) <a name="run_playbooks"></a>
 
 Set the connection plugin to `local` (prefered) or exchange the SSH key locally. (`cat "${HOME}/.ssh/id_ed25519.pub" >> "${HOME}/.ssh/authorized_keys"`)
 
-## 7 Variables <a name="variables"></a>
+# 7 Variables <a name="variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html)
 
@@ -260,7 +289,7 @@ Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}
     msg: "Hello {{ username }}"
 ```
 
-### 7.1 Variable types <a name="variables_types"></a>
+# 7.1 Variable types <a name="variables_types"></a>
 
 **Simple variable**
 
@@ -312,7 +341,7 @@ field: "{{ foo['field1'] }}"
 field: "{{ foo.field1 }}"
 ```
 
-### 7.2 Variables in the Playbook file (.yml) <a name="variables_in_playbooks"></a>
+# 7.2 Variables in the Playbook file (.yml) <a name="variables_in_playbooks"></a>
 
 ```yml
 - name: Sample Playbook
@@ -329,14 +358,14 @@ field: "{{ foo.field1 }}"
         username: 'leo'
 ```
 
-### 7.3 External Variables file (.yml) <a name="external_variables_file"></a>
+# 7.3 External Variables file (.yml) <a name="external_variables_file"></a>
 
 ```yml
 username: 'leo'
 password: '*****'
 ```
 
-### 5.4 Inventory Variables
+# 7.4 Inventory Variables <a name="inventory_variables"></a>
 
 ```yaml
 mygroup:
@@ -347,7 +376,7 @@ mygroup:
     dummy: "superserver"    # group variable
 ```
 
-### 7.4 group_vars & host_vars <a name="group_host_vars"></a>
+## 7.5 group_vars & host_vars <a name="group_host_vars"></a>
 
 group_vars/host_vars variables files are automatically loaded when running a playbook. 
 
@@ -376,7 +405,7 @@ Create directories named instead of a file. Ansible will read all the files in t
 /etc/ansible/group_vars/mygroup/cluster_settings
 ```
 
-### 7.5 Special Variables <a name="special_variables"></a>
+## 7.6 Special Variables <a name="special_variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
@@ -388,7 +417,7 @@ ansible_ssh_private_key_file: "/home/leo/.ssh/id_ed25519"
 ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-### 5.6 Ansible Facts
+## 7.7 Ansible Facts <a name="ansible_facts"></a>
 
 Ansible facts are data related to your remote systems.
 By default, Ansible gathers facts at the beginning of each play.
@@ -399,7 +428,7 @@ By default, Ansible gathers facts at the beginning of each play.
     var: ansible_facts
 ```
 
-## 5.6 Registering variables
+# 7.8 Registering variables <a name="registering_variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
 
@@ -417,9 +446,9 @@ A variable can be created from the Task output with the keyword `register`.
         msg: "Output: {{ result.stdout }}, return code: {{ result.rc }}"
 ```
 
-# 6 Playbooks
+# 8 Playbooks <a name="playbooks"></a>
 
-## 6.1 Keywords
+## 8.1 Keywords <a name="playbooks_keywords"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html)
 
@@ -484,9 +513,9 @@ A variable can be created from the Task output with the keyword `register`.
       changed_when:              # with true: the task is always resported as changed
 ```
 
-## 6.2 Tasks
+## 8.2 Tasks <a name="playbooks_tasks"></a>
 
-### 6.2.1 Conditionals (when)
+### 8.2.1 Conditionals (when) <a name="playbooks_conditionals"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html)
 
@@ -547,11 +576,11 @@ when: (name == "leo" and version == "5") or
       (name == "admin" and version == "6")
 ```
 
-### 6.2.2 loops
+### 8.2.2 Loops <a name="loops"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html)
 
-### 6.2.2.1 loop
+### 8.2.2.1 Loop <a name="loop"></a>
 
 **Simple list**
 
@@ -610,7 +639,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
       loop: "{{ user_data | dict2items }}"
 ```
 
-#### 6.2.2.2 loop control
+#### 8.2.2.2 Loop control <a name="loop_control"></a>
 
 **Until condition**
 
@@ -624,7 +653,7 @@ loop: "{{ ['banana', 'apple', 'orange'] }}"
       delay: 1
 ```
 
-## 6.3 Blocks
+## 8.3 Blocks <a name="blocks"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_blocks.html)
 
@@ -643,7 +672,7 @@ A block is a group of tasks. All taks in the block inherit the block directives.
       when: ansible_facts['distribution'] == 'Ubuntu'
 ```
 
-### 6.3.1 Handling tasks failures with `rescue`
+### 8.3.1 Handling tasks failures with `rescue` <a name="blocks_rescue"></a>
 
 Similar to exception handling in many programming languages, `rescue` block specify tasks to run when a task in the block fails.
 
@@ -659,7 +688,7 @@ Similar to exception handling in many programming languages, `rescue` block spec
             msg: 'Error'
 ```
 
-### 6.3.2 `always` section
+### 8.3.2 `always` section <a name="blocks_always"></a>
 
 No matter what the task status in the block is, the tasks in the sessions `always` are always executed after the block tasks.
 
@@ -675,7 +704,7 @@ No matter what the task status in the block is, the tasks in the sessions `alway
             msg: 'This always executes'
 ```
 
-## 6.4 Handlers
+## 8.4 Handlers <a name="handlers"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html)
 
@@ -693,7 +722,7 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
       # ...
 ```
 
-## 6.5 Re-using Ansible artifacts
+## 8.5 Re-using Ansible artifacts <a name="reusing_playbooks"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html)
 
@@ -702,7 +731,7 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
 - import_playbook: myplaybook1.yml
 ```
 
-# 7 Roles
+# 9 Roles <a name="roles"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
 
@@ -741,7 +770,7 @@ Default locations:
 
 You can store the roles in a different location settings `roles_path` in the ansible.cfg
 
-## 7.1 Creating a role (task)
+## 9.1 Creating a role (task) <a name="creating_roles"></a>
 
 `/etc/ansible/roles/example/tasks/main.yml`
 
@@ -750,9 +779,9 @@ You can store the roles in a different location settings `roles_path` in the ans
   # ....
 ```
 
-## 7.2 Using roles
+## 9.2 Using roles <a name="using_roles"></a>
 
-## 7.2.1 Play level
+## 9.2.1 Play level <a name="roles_play_level"></a>
 
 Roles in the session roles run before any other tasks in a play.
 
@@ -772,7 +801,7 @@ Roles in the session roles run before any other tasks in a play.
         app_port: 5000
 ```
 
-## 7.2.2 Task level
+## 9.2.2 Task level <a name="roles_task_level"></a>
 
 **Including roles: dynamic use**
 
@@ -798,7 +827,7 @@ The behavior is the same as using the roles keyword.
         name: example
 ```
 
-# 8 Vault
+# 10 Vault <a name="vault"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/vault_guide/index.html)
 
@@ -806,7 +835,7 @@ Ansible Vault is a feature of Ansible that allows you to keep sensitive data suc
 
 The command to use Ansible Vault is `ansible-vault` and the available arguments are `create,decrypt,edit,view,encrypt,encrypt_string,rekey`.
 
-## 8.1 Vault Password
+## 10.1 Vault Password <a name="vault_password"></a>
 
 Running any `ansible-vault` command or a playbook that uses some encrypted content, you will prompted for a password.
 
@@ -821,11 +850,11 @@ The vault password can be stored:
 
 To enforce password prompt, add the argument `--ask-vault-pass` to the command line.
 
-## 8.2 Variable-level encryption
+## 10.2 Variable-level encryption <a name="vault_variable_level"></a>
 
 Variable-level encryption only works with variables and keeps your files still legible. You can mix plaintext and encrypted variables. However, password rotation is not possible to do with the `rekey` command.
 
-### 8.2.1 Encrypting variables
+### 10.2.1 Encrypting variables <a name="vault_variable_encryption"></a>
 
 **Example**: Encrypting the string '1234' using the variable name 'my_secret'
 
@@ -847,7 +876,7 @@ my_secret: !vault |
           6239
 ```
 
-### 8.2.1 Viewing encrypted variables
+### 10.2.2 Viewing encrypted variables <a name="view_encryt_variable"></a>
 
 You can view the original value using the debug module.
 
@@ -865,12 +894,12 @@ localhost | SUCCESS => {
 }
 ```
 
-## 8.3 File-level encryption 
+## 10.3 File-level encryption <a name="vault_file_level"></a>
 
 File-level encryption is easy to use, encrypting variables, tasks, or other Ansible content files. It also allows password rotation with `rekey`, but all the file content will be encrypted, you will not 
 be able to read the variable name without decrypting it for instance. 
 
-### 8.3.1 Encrypting files
+### 10.3.1 Encrypting files <a name="vault_encrypting_files"></a>
 
 Variable file content (variables.yml):
 ```yaml
@@ -895,7 +924,7 @@ $ANSIBLE_VAULT;1.1;AES256
 3166353736346239346166346166393530373532616231343530
 ```
 
-### 8.3.2 Decrypting files
+### 10.3.2 Decrypting files <a name="vault_decrypting_files"></a>
 
 ```yaml
 ansible-vault decrypt variables.yml      # Decrypt the entire file
@@ -903,22 +932,21 @@ ansible-vault view variables.yml         # View the content decrypted
 ansible-vault edit variables.yml         # Open a editor to edit the 
 ```
 
-### 8.3.2 Rotating password
+### 10.3.3 Rotating password <a name="vault_rotating_password"></a>
 
 ```yaml
 ansible-vault rekey variables.yml        # Change the ecryption key
 ```
 
-# 9 Modules
+# 11 Modules
 
-# 10 Plugins
+# 12 Plugins
 
-## 10.1 Connection Plugins
+## 12.1 Connection Plugins
+## 12.2 Filter Plugins
 
-## 10.2 Filter Plugins
+## 12.3 Callback Plugins
 
-## 10.3 Callback Plugins
-
-# 11 Collections
+# 13 Collections
 
 # Template
