@@ -779,6 +779,8 @@ The behavior is the same as using the roles keyword.
 
 Ansible Vault is a feature of Ansible that allows you to keep sensitive data such as passwords or keys in encrypted files or variables, it can encrypt any data file used by Ansible. To use Ansible Vault you need one or more passwords to encrypt or decrypt content.
 
+The command to use Ansible Vault is `ansible-vault` and the available arguments are `create,decrypt,edit,view,encrypt,encrypt_string,rekey`.
+
 ## 8.1 Vault Password
 
 Running any `ansible-vault` command or a playbook that uses some encrypted content, you will prompted for a password.
@@ -788,13 +790,48 @@ The vault password can be stored:
   - Adding the argument `--vault-password-file /path/to/vault_password` to the command line.
   - Setting the file path in the ansible.cfg file updating the entry `vault_password_file=`.
   - Setting the file path in the environment variable `ANSIBLE_VAULT_PASSWORD_FILE`.
-- In a third-party tools with client scripts.
+- In third-party tools with client scripts.
   - `ansible-playbook --vault-password-file client.py`
   - `ansible-playbook --vault-id dev@client.py`
 
 To enforce password prompt, add the argument `--ask-vault-pass` to the command line.
 
+## 8.2 Encrypting files
 
+File-level encryption is easy to use and allow password rotation with `rekey`, but all the file content will be encrypted, you wil not 
+be able to read the variables name without decrypt it for instance.
+
+**Example:** Encrypting a variable file:
+
+Variable file content:
+```yaml
+username: 'leo'
+password: '1234'
+```
+
+Command:
+```yaml
+ansible-vault encrypt myvars.yml
+```
+
+Encrypted file content:
+```yaml
+$ANSIBLE_VAULT;1.1;AES256
+61663463663838653230363163373233323739663930396238346462666466663332373334396537
+3932623330646639653130316530353937666634643638350a616238653639363334623437353337
+33306234353239656264643633613938316537626237653264383161326635623962383630383363
+3064383438663031630a663963333937393464326335356666323733366230313531613431336135
+61373930343333303665363532656634376339373637626466353436626633343863313566323665
+3166353736346239346166346166393530373532616231343530
+```
+
+Extra commands:
+```yaml
+ansible-vault decrypt myvars.yml      # Decrypt the entire file
+ansible-vault view myvars.yml         # View the content decrypted
+ansible-vault edit myvars.yml         # Open a editor to edit content file
+ansible-vault rekey myvars.yml        # Change the ecryption key
+```
 
 # 9 Modules
 
