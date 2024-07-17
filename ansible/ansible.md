@@ -9,22 +9,31 @@ GitHub: https://github.com/ansible/ansible<br>
 
 # Summary
 
-1. [Ansible concepts](#ansible_concepts)<br>
-2. [How to install on Ubuntu 24](#install_ubuntu24)<br>
-  2.1 [Creating configuration file](#creating_conf_file)<br>
-  2.2 [Creating inventory (YAML)](#creating_inventory)<br>
-3. [Commands](#commands)<br>
-4. [Inventory](#inventory)<br>
-  4.1 [Adding Hosts](#add_hosts)<br>
-  4.2 [Adding Groups](#add_groups)<br>
+1. [Introduction](#introduction)<br>
+2. [Ansible concepts](#ansible_concepts)<br>
+3. [How to install on Ubuntu 24](#install_ubuntu24)<br>
+  3.1. [Creating configuration file](#creating_conf_file)<br>
+  3.2. [Creating inventory (YAML)](#creating_inventory)<br>
+4. [Commands](#commands)<br>
+5. [Inventory](#inventory)<br>
+  5.1. [Adding Hosts](#add_hosts)<br>
+  5.2. [Adding Groups](#add_groups)<br>
+6. [Introducing Playbooks](#intro_playbooks)<br>
+  6.1. [Runnig playbook locally (localhost)](#run_playbooks)<br>
+7. [Variables](#variables)<br>
+  7.1. [Variable types](#variables_types)<br>
+  7.2. [Variables in the Playbook file (.yml)](#variables_in_playbooks)<br>
+  7.3. [External Variables file (.yml)](#external_variables_file)<br>
+  7.4. [group_vars & host_vars](#group_host_vars)<br>
+  7.4. [Special Variables](#special_variables)<br>
 
-# 1. Introduction
+# 1. Introduction <a name="introduction"></a>
 
 Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.
 
 In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
 
-# 1. Ansible concepts <a name="ansible_concepts"></a>
+# 2. Ansible concepts <a name="ansible_concepts"></a>
 
 - **Control node (controller)** The machine from which you run the Ansible Commands. Ansible needs to be installed only on this machine.</br>
 - **Managed nodes (hosts)** Target devices you aim to manage with Ansible.</br>
@@ -43,7 +52,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Callback Plugins**</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
-## 2 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
+## 3 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
 
 ```shell
 sudo apt update
@@ -59,7 +68,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 2.1 Creating configuration file <a name="creating_conf_file"></a>
+### 3.1 Creating configuration file <a name="creating_conf_file"></a>
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -67,7 +76,7 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 2.2 Creating inventory (YAML) <a name="creating_inventory"></a>
+### 3.2 Creating inventory (YAML) <a name="creating_inventory"></a>
 
 ```shell
 touch /etc/ansible/hosts
@@ -88,7 +97,7 @@ all:
     ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-## 3 Commands <a name="commands"></a>
+## 4 Commands <a name="commands"></a>
 
 **Version**
 
@@ -156,7 +165,7 @@ ansible-vault encrypt_string 'value' --name 'key'   # Encrypt a string
 ansible-vault rekey myfile.yml                      # Re-key a vault encrypted file
 ```
 
-## 4 Inventory <a name="inventory"></a>
+## 5 Inventory <a name="inventory"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
 
@@ -166,7 +175,7 @@ The most common inventory file formats are INI and YAML (preffered).
 
 Ansible has two special groups, `all` and `ungrouped`. The `all` group contains every host. The `ungrouped` group contains all hosts that don't have another group aside from `all`.
 
-### 4.1 Adding Hosts <a name="add_hosts"></a>
+### 5.1 Adding Hosts <a name="add_hosts"></a>
 
 In the inventory file add the host name to a group in the `hosts:` session, eding with `:`.
 
@@ -177,7 +186,7 @@ all:
     device2:    # host name
 ```
 
-### 4.2 Adding Groups <a name="add_groups"></a>
+### 5.2 Adding Groups <a name="add_groups"></a>
 
 In the inventory file add the group name ending with `:`.
 
@@ -196,7 +205,7 @@ my_group3:      # group name
     my_group2:
 ```
 
-## 4 Introducing Playbooks
+## 6 Introducing Playbooks <a name="intro_playbooks"></a>
 
 ### Execution
 
@@ -234,11 +243,11 @@ PLAY RECAP *********************************************************************
 device1                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-### 4.1 Runnig playbook locally (localhost)
+### 6.1 Runnig playbook locally (localhost) <a name="run_playbooks"></a>
 
 Set the connection plugin to `local` (prefered) or exchange the SSH key locally. (`cat "${HOME}/.ssh/id_ed25519.pub" >> "${HOME}/.ssh/authorized_keys"`)
 
-## 5 Variables
+## 7 Variables <a name="variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html)
 
@@ -251,7 +260,7 @@ Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}
     msg: "Hello {{ username }}"
 ```
 
-### 5.1 Variable types
+### 7.1 Variable types <a name="variables_types"></a>
 
 **Simple variable**
 
@@ -303,7 +312,7 @@ field: "{{ foo['field1'] }}"
 field: "{{ foo.field1 }}"
 ```
 
-### 5.2 Variables in the Playbook file (.yml)
+### 7.2 Variables in the Playbook file (.yml) <a name="variables_in_playbooks"></a>
 
 ```yml
 - name: Sample Playbook
@@ -320,7 +329,7 @@ field: "{{ foo.field1 }}"
         username: 'leo'
 ```
 
-### 5.3 External Variables file (.yml)
+### 7.3 External Variables file (.yml) <a name="external_variables_file"></a>
 
 ```yml
 username: 'leo'
@@ -338,7 +347,7 @@ mygroup:
     dummy: "superserver"    # group variable
 ```
 
-### 5.4 group_vars & host_vars
+### 7.4 group_vars & host_vars <a name="group_host_vars"></a>
 
 group_vars/host_vars variables files are automatically loaded when running a playbook. 
 
@@ -367,7 +376,7 @@ Create directories named instead of a file. Ansible will read all the files in t
 /etc/ansible/group_vars/mygroup/cluster_settings
 ```
 
-### 5.5 Special Variables
+### 7.5 Special Variables <a name="special_variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/special_variables.html)
 
