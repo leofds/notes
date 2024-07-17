@@ -1,18 +1,26 @@
 
+# Ansible
+
+This repository is a summary of Ansible, check the official documentation on the links below.
+
+Web site: https://www.ansible.com/<br>
+Documentation: https://docs.ansible.com/<br>
+GitHub: https://github.com/ansible/ansible<br>
+
 # Summary
 
 1. [Ansible concepts](#ansible_concepts)<br>
 2. [How to install on Ubuntu 24](#install_ubuntu24)<br>
   2.1 [Creating configuration file](#creating_conf_file)<br>
-  2.2 [Creating inventory (YAML)](#session_1-2)<br>
+  2.2 [Creating inventory (YAML)](#creating_inventory)<br>
+3. [Commands](#commands)<br>
+4. [Inventory](#inventory)<br>
+  4.1 [Adding Hosts](#add_hosts)<br>
+  4.2 [Adding Groups](#add_groups)<br>
 
-# Ansible
+# 1. Introduction
 
-Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.</br>
-
-Web Page: [https://www.ansible.com/](https://www.ansible.com/)</br>
-Documentation: [https://docs.ansible.com/](https://docs.ansible.com/)</br>
-GitHub: [https://github.com/ansible/ansible](https://github.com/ansible/ansible)</br>
+Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.
 
 In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
 
@@ -35,7 +43,7 @@ In brief, Ansible connects to remote hosts via SSH to execute commands or Python
   - **Callback Plugins**</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
-## 1 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
+## 2 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
 
 ```shell
 sudo apt update
@@ -51,7 +59,7 @@ Updating
 pipx upgrade --include-injected ansible
 ```
 
-### 1.1 Creating configuration file <a name="creating_conf_file"></a>
+### 2.1 Creating configuration file <a name="creating_conf_file"></a>
 
 ```shell
 sudo mkdir -p /etc/ansible
@@ -59,7 +67,7 @@ sudo chown $USER:$USER /etc/ansible
 ansible-config init --disabled -t all > /etc/ansible/ansible.cfg
 ```
 
-### 1.2 Creating inventory (YAML) <a name="session_1-2"></a>
+### 2.2 Creating inventory (YAML) <a name="creating_inventory"></a>
 
 ```shell
 touch /etc/ansible/hosts
@@ -80,7 +88,7 @@ all:
     ansible_python_interpreter: "/usr/bin/python3"
 ```
 
-## 2 Commands <a name="session_2"></a>
+## 3 Commands <a name="commands"></a>
 
 **Version**
 
@@ -148,7 +156,7 @@ ansible-vault encrypt_string 'value' --name 'key'   # Encrypt a string
 ansible-vault rekey myfile.yml                      # Re-key a vault encrypted file
 ```
 
-## 3 Inventory
+## 4 Inventory <a name="inventory"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/inventory_guide/intro_inventory.html)
 
@@ -158,7 +166,7 @@ The most common inventory file formats are INI and YAML (preffered).
 
 Ansible has two special groups, `all` and `ungrouped`. The `all` group contains every host. The `ungrouped` group contains all hosts that don't have another group aside from `all`.
 
-### 3.1 Adding Hosts
+### 4.1 Adding Hosts <a name="add_hosts"></a>
 
 In the inventory file add the host name to a group in the `hosts:` session, eding with `:`.
 
@@ -169,7 +177,7 @@ all:
     device2:    # host name
 ```
 
-### 3.2 Adding Groups
+### 4.2 Adding Groups <a name="add_groups"></a>
 
 In the inventory file add the group name ending with `:`.
 
