@@ -55,12 +55,13 @@ GitHub: https://github.com/ansible/ansible<br>
 10.3.1. [Encrypting files](#vault_encrypting_files)<br>
 10.3.2. [Decrypting files](#vault_decrypting_files)<br>
 10.3.3. [Rotating password](#vault_rotating_password)<br>
+10.4. [Vault ID - Multiple passwords](#vault_id)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
 Ansible is an open source IT automation engine that automates provisioning, configuration management, application deployment, orchestration, and many other IT processes.
 
-In brief, Ansible connects to remote hosts via SSH to execute commands or Python scripts previously sent by SCP.
+In brief, Ansible connects to remote hosts via SSH to execute commands and Python scripts previously sent by SCP.
 
 # 2. Ansible concepts <a name="ansible_concepts"></a>
 
@@ -837,7 +838,7 @@ The command to use Ansible Vault is `ansible-vault` and the available arguments 
 
 ## 10.1 Vault Password <a name="vault_password"></a>
 
-Running any `ansible-vault` command or a playbook that uses some encrypted content, you will prompted for a password.
+Running any `ansible-vault` command you will prompted for a password. To enforce password prompt when running a playbook with `ansible-playbook` command, you can add the argument `--ask-vault-pass` to the command line.
 
 The vault password can be stored:
 - In a file:
@@ -847,8 +848,6 @@ The vault password can be stored:
 - In third-party tools with client scripts.
   - `ansible-playbook --vault-password-file client.py`
   - `ansible-playbook --vault-id dev@client.py`
-
-To enforce password prompt, add the argument `--ask-vault-pass` to the command line.
 
 ## 10.2 Variable-level encryption <a name="vault_variable_level"></a>
 
@@ -897,7 +896,7 @@ localhost | SUCCESS => {
 ## 10.3 File-level encryption <a name="vault_file_level"></a>
 
 File-level encryption is easy to use, encrypting variables, tasks, or other Ansible content files. It also allows password rotation with `rekey`, but all the file content will be encrypted, you will not 
-be able to read the variable name without decrypting it for instance. 
+be able to read the variable name without decrypting it.
 
 ### 10.3.1 Encrypting files <a name="vault_encrypting_files"></a>
 
@@ -937,6 +936,36 @@ ansible-vault edit variables.yml         # Open a editor to edit the
 ```yaml
 ansible-vault rekey variables.yml        # Change the ecryption key
 ```
+
+## 10.4 Vault ID - Multiple passwords <a name="vault_id"></a>
+
+You can encrypt files and variables with different passwords. For that you can specify an label (Vault ID) for each encrypted content, using the argument `--vault-id`.
+
+In additonal to the label, you must provide a source.
+
+```yaml
+--vault-id label@source
+```
+
+Kind of sources:
+
+```yaml
+--vault-id leo@prompt       # The password will be prompted
+--vault-id leo@my_pass      # Password file called 'my_pass'
+--vault-id leo@client.py    # Third-party tool script
+```
+
+**Examples**
+
+```yaml
+ansible-vault encrypt vars.yaml --vault-id leo@prompt                   # Encrypting with label
+ansible-playbook hello.yml --vault-id leo@prompt                        # Run playbook asking for the password of the label 'leo'
+ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing multiple passwords
+```
+
+> **_NOTE 1:_** You can encrypt contents with different passwords for the same label (Vault ID), Anisble does not validate it.
+
+> **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
 
 # 11 Modules
 
