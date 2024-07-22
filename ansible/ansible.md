@@ -12,49 +12,49 @@ GitHub: https://github.com/ansible/ansible<br>
 1. [Introduction](#introduction)<br>
 2. [Ansible concepts](#ansible_concepts)<br>
 3. [How to install on Ubuntu 24](#install_ubuntu24)<br>
-  3.1. [Creating configuration file](#creating_conf_file)<br>
-  3.2. [Creating inventory (YAML)](#creating_inventory)<br>
+3.1. [Creating configuration file](#creating_conf_file)<br>
+3.2. [Creating inventory (YAML)](#creating_inventory)<br>
 4. [Commands](#commands)<br>
 5. [Inventory](#inventory)<br>
-  5.1. [Adding Hosts](#add_hosts)<br>
-  5.2. [Adding Groups](#add_groups)<br>
+5.1. [Adding Hosts](#add_hosts)<br>
+5.2. [Adding Groups](#add_groups)<br>
 6. [Introducing Playbooks](#intro_playbooks)<br>
-  6.1. [Runnig playbook locally (localhost)](#run_playbooks)<br>
+6.1. [Runnig playbook locally (localhost)](#run_playbooks)<br>
 7. [Variables](#variables)<br>
-  7.1. [Variable types](#variables_types)<br>
-  7.2. [Variables in the Playbook file (.yml)](#variables_in_playbooks)<br>
-  7.3. [External Variables file (.yml)](#external_variables_file)<br>
-  7.4. [Inventory Variables](#inventory_variables)<br>
-  7.5. [group_vars & host_vars](#group_host_vars)<br>
-  7.6. [Special Variables](#special_variables)<br>
-  7.7. [Ansible Facts](#ansible_facts)<br>
-  7.8. [Registering variables](#registering_variables)<br>
+7.1. [Variable types](#variables_types)<br>
+7.2. [Variables in the Playbook file (.yml)](#variables_in_playbooks)<br>
+7.3. [External Variables file (.yml)](#external_variables_file)<br>
+7.4. [Inventory Variables](#inventory_variables)<br>
+7.5. [group_vars & host_vars](#group_host_vars)<br>
+7.6. [Special Variables](#special_variables)<br>
+7.7. [Ansible Facts](#ansible_facts)<br>
+7.8. [Registering variables](#registering_variables)<br>
 8. [Playbooks](#playbooks)<br>
-  8.1. [Keywords](#playbooks_keywords)<br>
-  8.2. [Tasks](#playbooks_tasks)<br>
-    8.2.1. [Conditionals (when)](#playbooks_conditionals)<br>
-    8.2.2. [Loops](#loops)<br>
-      8.2.2.1. [Loop](#loop)<br>
-      8.2.2.2. [Loop control](#loop_control)<br>
-  8.3. [Blocks](#blocks)<br>
-    8.3.1. [Handling tasks failures with `rescue`](#blocks_rescue)<br>
-    8.3.2. [`always` section](#blocks_always)<br>
-  8.4. [Handlers](#handlers)<br>
-  8.5. [Re-using Ansible artifacts](#reusing_playbooks)<br>
+8.1. [Keywords](#playbooks_keywords)<br>
+8.2. [Tasks](#playbooks_tasks)<br>
+8.2.1. [Conditionals (when)](#playbooks_conditionals)<br>
+8.2.2. [Loops](#loops)<br>
+8.2.2.1. [Loop](#loop)<br>
+8.2.2.2. [Loop control](#loop_control)<br>
+8.3. [Blocks](#blocks)<br>
+8.3.1. [Handling tasks failures with `rescue`](#blocks_rescue)<br>
+8.3.2. [`always` section](#blocks_always)<br>
+8.4. [Handlers](#handlers)<br>
+8.5. [Re-using Ansible artifacts](#reusing_playbooks)<br>
 9. [Roles](#roles)<br>
-  9.1. [Creating a role (task)](#creating_roles)<br>
-  9.2. [Using roles](#using_roles)<br>
-    9.2.1. [Play level](#roles_play_level)<br>
-    9.2.2. [Task level](#roles_task_level)<br>
+9.1. [Creating a role (task)](#creating_roles)<br>
+9.2. [Using roles](#using_roles)<br>
+9.2.1. [Play level](#roles_play_level)<br>
+9.2.2. [Task level](#roles_task_level)<br>
 10. [Vault](#vault)<br>
-  10.1. [Vault Password](#vault_password)<br>
-  10.2. [Variable-level encryption](#vault_variable_level)<br>
-    10.2.1. [Encrypting variables](#vault_variable_encryption)<br>
-    10.2.2. [Viewing encrypted variables](#view_encryt_variable)<br>
-  10.3. [File-level encryption](#vault_file_level)<br>
-    10.3.1. [Encrypting files](#vault_encrypting_files)<br>
-    10.3.2. [Decrypting files](#vault_decrypting_files)<br>
-    10.3.3. [Rotating password](#vault_rotating_password)<br>
+10.1. [Vault Password](#vault_password)<br>
+10.2. [Variable-level encryption](#vault_variable_level)<br>
+10.2.1. [Encrypting variables](#vault_variable_encryption)<br>
+10.2.2. [Viewing encrypted variables](#view_encryt_variable)<br>
+10.3. [File-level encryption](#vault_file_level)<br>
+10.3.1. [Encrypting files](#vault_encrypting_files)<br>
+10.3.2. [Decrypting files](#vault_decrypting_files)<br>
+10.3.3. [Rotating password](#vault_rotating_password)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -272,7 +272,7 @@ PLAY RECAP *********************************************************************
 device1                    : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 
-# 6.1 Runnig playbook locally (localhost) <a name="run_playbooks"></a>
+## 6.1 Runnig playbook locally (localhost) <a name="run_playbooks"></a>
 
 Set the connection plugin to `local` (prefered) or exchange the SSH key locally. (`cat "${HOME}/.ssh/id_ed25519.pub" >> "${HOME}/.ssh/authorized_keys"`)
 
@@ -289,7 +289,7 @@ Ansible uses `Jinja2` to access variables dynamically using `{{ variable_name }}
     msg: "Hello {{ username }}"
 ```
 
-# 7.1 Variable types <a name="variables_types"></a>
+## 7.1 Variable types <a name="variables_types"></a>
 
 **Simple variable**
 
@@ -341,7 +341,7 @@ field: "{{ foo['field1'] }}"
 field: "{{ foo.field1 }}"
 ```
 
-# 7.2 Variables in the Playbook file (.yml) <a name="variables_in_playbooks"></a>
+## 7.2 Variables in the Playbook file (.yml) <a name="variables_in_playbooks"></a>
 
 ```yml
 - name: Sample Playbook
@@ -358,14 +358,14 @@ field: "{{ foo.field1 }}"
         username: 'leo'
 ```
 
-# 7.3 External Variables file (.yml) <a name="external_variables_file"></a>
+## 7.3 External Variables file (.yml) <a name="external_variables_file"></a>
 
 ```yml
 username: 'leo'
 password: '*****'
 ```
 
-# 7.4 Inventory Variables <a name="inventory_variables"></a>
+## 7.4 Inventory Variables <a name="inventory_variables"></a>
 
 ```yaml
 mygroup:
@@ -428,7 +428,7 @@ By default, Ansible gathers facts at the beginning of each play.
     var: ansible_facts
 ```
 
-# 7.8 Registering variables <a name="registering_variables"></a>
+## 7.8 Registering variables <a name="registering_variables"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
 
