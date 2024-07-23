@@ -56,6 +56,9 @@ GitHub: https://github.com/ansible/ansible<br>
 10.3.2. [Decrypting files](#vault_decrypting_files)<br>
 10.3.3. [Rotating password](#vault_rotating_password)<br>
 10.4. [Vault ID - Multiple passwords](#vault_id)<br>
+11. [Modules](#modules)<br>
+11.1. [Executing modules from the command line](#running_modules_from_command_line)<br>
+11.2. [Executing modules from playbooks](#running_modules_from_playbooks)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -169,11 +172,18 @@ ansible-playbook myplaybook.yml --ask-vault-pass         # ask for vault passwor
 ansible-playbook myplaybook.yml --vault-password-file pass_file    # vault password file
 ```
 
+**Doc**
+```shell
+ansible-doc shell                                         # shows documentation of the shell module
+```
+
 **Run Module**
 
 ```shell
 ansible localhost -m ping                                 # connection test            
 ansible localhost -m setup --tree facts.d/                # write facts to file
+ansible webservers -m command -a "/sbin/reboot -t now"
+ansible webservers -m service -a "name=httpd state=started"
 ```
 
 **Installing collections with Ansible Galaxy**
@@ -967,7 +977,39 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 
 > **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
 
-# 11 Modules
+# 11 Modules <a name="modules"></a>
+
+[[doc]](https://docs.ansible.com/ansible/latest/module_plugin_guide/index.html)
+
+List of [Common modules](https://github.com/leofds/notes/tree/master/ansible/common_modules.md)
+
+Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. Ansible executes each module, usually on the remote managed node, and collects return values.
+
+All modules return JSON format data. This means modules can be written in any programming language, but Python is a common choice.
+
+> **_NOTE:_** Modules should be idempotent, and should avoid making any changes if they detect that the current state matches the desired final state.
+
+## 11.1 Executing modules from the command line <a name="running_modules_from_command_line"></a>
+
+```yaml
+ansible device1 -m ping
+ansible device1 -m command -a "/sbin/reboot -t now"        # With argument
+ansible device1 -m service -a "name=httpd state=started"   # With arguments key=value
+```
+
+## 11.2 Executing modules from playbooks <a name="running_modules_from_playbooks"></a>
+
+```yaml
+- name: reboot the servers            # Task name
+  command: /sbin/reboot -t now        # Module name and arguments
+```
+
+```yaml
+- name: restart webserver             # Task name
+  service:                            # Module name
+    name: httpd                       # Module args
+    state: restarted                  # Module args
+```
 
 # 12 Plugins
 
