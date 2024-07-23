@@ -41,24 +41,24 @@ GitHub: https://github.com/ansible/ansible<br>
 8.3.2. [`always` section](#blocks_always)<br>
 8.4. [Handlers](#handlers)<br>
 8.5. [Re-using Ansible artifacts](#reusing_playbooks)<br>
-9. [Roles](#roles)<br>
-9.1. [Creating a role (task)](#creating_roles)<br>
-9.2. [Using roles](#using_roles)<br>
-9.2.1. [Play level](#roles_play_level)<br>
-9.2.2. [Task level](#roles_task_level)<br>
-10. [Vault](#vault)<br>
-10.1. [Vault Password](#vault_password)<br>
-10.2. [Variable-level encryption](#vault_variable_level)<br>
-10.2.1. [Encrypting variables](#vault_variable_encryption)<br>
-10.2.2. [Viewing encrypted variables](#view_encryt_variable)<br>
-10.3. [File-level encryption](#vault_file_level)<br>
-10.3.1. [Encrypting files](#vault_encrypting_files)<br>
-10.3.2. [Decrypting files](#vault_decrypting_files)<br>
-10.3.3. [Rotating password](#vault_rotating_password)<br>
-10.4. [Vault ID - Multiple passwords](#vault_id)<br>
-11. [Modules](#modules)<br>
-11.1. [Executing modules from the command line](#running_modules_from_command_line)<br>
-11.2. [Executing modules from playbooks](#running_modules_from_playbooks)<br>
+9. [Modules](#modules)<br>
+9.1. [Executing modules from the command line](#running_modules_from_command_line)<br>
+9.2. [Executing modules from playbooks](#running_modules_from_playbooks)<br>
+10. [Roles](#roles)<br>
+10.1. [Creating a role (task)](#creating_roles)<br>
+10.2. [Using roles](#using_roles)<br>
+10.2.1. [Play level](#roles_play_level)<br>
+10.2.2. [Task level](#roles_task_level)<br>
+11. [Vault](#vault)<br>
+11.1. [Vault Password](#vault_password)<br>
+11.2. [Variable-level encryption](#vault_variable_level)<br>
+11.2.1. [Encrypting variables](#vault_variable_encryption)<br>
+11.2.2. [Viewing encrypted variables](#view_encryt_variable)<br>
+11.3. [File-level encryption](#vault_file_level)<br>
+11.3.1. [Encrypting files](#vault_encrypting_files)<br>
+11.3.2. [Decrypting files](#vault_decrypting_files)<br>
+11.3.3. [Rotating password](#vault_rotating_password)<br>
+11.4. [Vault ID - Multiple passwords](#vault_id)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -742,7 +742,41 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
 - import_playbook: myplaybook1.yml
 ```
 
-# 9 Roles <a name="roles"></a>
+# 9 Modules <a name="modules"></a>
+
+[[doc]](https://docs.ansible.com/ansible/latest/module_plugin_guide/index.html)
+
+List of common [builtin modules](https://github.com/leofds/notes/tree/master/ansible/builtin_modules.md)
+
+Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. Ansible executes each module, usually on the remote managed node, and collects return values.
+
+All modules return JSON format data. This means modules can be written in any programming language, but Python is a common choice.
+
+> **_NOTE:_** Modules should be idempotent, and should avoid making any changes if they detect that the current state matches the desired final state.
+
+## 9.1 Executing modules from the command line <a name="running_modules_from_command_line"></a>
+
+```yaml
+ansible device1 -m ping
+ansible device1 -m command -a "/sbin/reboot -t now"        # With argument
+ansible device1 -m service -a "name=httpd state=started"   # With arguments key=value
+```
+
+## 9.2 Executing modules from playbooks <a name="running_modules_from_playbooks"></a>
+
+```yaml
+- name: reboot the servers            # Task name
+  command: /sbin/reboot -t now        # Module name and arguments
+```
+
+```yaml
+- name: restart webserver             # Task name
+  service:                            # Module name
+    name: httpd                       # Module args
+    state: restarted                  # Module args
+```
+
+# 10 Roles <a name="roles"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html)
 
@@ -781,7 +815,7 @@ Default locations:
 
 You can store the roles in a different location settings `roles_path` in the ansible.cfg
 
-## 9.1 Creating a role (task) <a name="creating_roles"></a>
+## 10.1 Creating a role (task) <a name="creating_roles"></a>
 
 `/etc/ansible/roles/example/tasks/main.yml`
 
@@ -790,9 +824,9 @@ You can store the roles in a different location settings `roles_path` in the ans
   # ....
 ```
 
-## 9.2 Using roles <a name="using_roles"></a>
+## 10.2 Using roles <a name="using_roles"></a>
 
-## 9.2.1 Play level <a name="roles_play_level"></a>
+## 10.2.1 Play level <a name="roles_play_level"></a>
 
 Roles in the session roles run before any other tasks in a play.
 
@@ -812,7 +846,7 @@ Roles in the session roles run before any other tasks in a play.
         app_port: 5000
 ```
 
-## 9.2.2 Task level <a name="roles_task_level"></a>
+## 10.2.2 Task level <a name="roles_task_level"></a>
 
 **Including roles: dynamic use**
 
@@ -838,7 +872,7 @@ The behavior is the same as using the roles keyword.
         name: example
 ```
 
-# 10 Vault <a name="vault"></a>
+# 11 Vault <a name="vault"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/vault_guide/index.html)
 
@@ -846,7 +880,7 @@ Ansible Vault is a feature of Ansible that allows you to keep sensitive data suc
 
 The command to use Ansible Vault is `ansible-vault` and the available arguments are `create,decrypt,edit,view,encrypt,encrypt_string,rekey`.
 
-## 10.1 Vault Password <a name="vault_password"></a>
+## 11.1 Vault Password <a name="vault_password"></a>
 
 Running any `ansible-vault` command you will prompted for a password. To enforce password prompt when running a playbook with `ansible-playbook` command, you can add the argument `--ask-vault-pass` to the command line.
 
@@ -859,11 +893,11 @@ The vault password can be stored:
   - `ansible-playbook --vault-password-file client.py`
   - `ansible-playbook --vault-id dev@client.py`
 
-## 10.2 Variable-level encryption <a name="vault_variable_level"></a>
+## 11.2 Variable-level encryption <a name="vault_variable_level"></a>
 
 Variable-level encryption only works with variables and keeps your files still legible. You can mix plaintext and encrypted variables. However, password rotation is not possible to do with the `rekey` command.
 
-### 10.2.1 Encrypting variables <a name="vault_variable_encryption"></a>
+### 11.2.1 Encrypting variables <a name="vault_variable_encryption"></a>
 
 **Example**: Encrypting the string '1234' using the variable name 'my_secret'
 
@@ -885,7 +919,7 @@ my_secret: !vault |
           6239
 ```
 
-### 10.2.2 Viewing encrypted variables <a name="view_encryt_variable"></a>
+### 11.2.2 Viewing encrypted variables <a name="view_encryt_variable"></a>
 
 You can view the original value using the debug module.
 
@@ -903,12 +937,12 @@ localhost | SUCCESS => {
 }
 ```
 
-## 10.3 File-level encryption <a name="vault_file_level"></a>
+## 11.3 File-level encryption <a name="vault_file_level"></a>
 
 File-level encryption is easy to use, encrypting variables, tasks, or other Ansible content files. It also allows password rotation with `rekey`, but all the file content will be encrypted, you will not 
 be able to read the variable name without decrypting it.
 
-### 10.3.1 Encrypting files <a name="vault_encrypting_files"></a>
+### 11.3.1 Encrypting files <a name="vault_encrypting_files"></a>
 
 Variable file content (variables.yml):
 ```yaml
@@ -933,7 +967,7 @@ $ANSIBLE_VAULT;1.1;AES256
 3166353736346239346166346166393530373532616231343530
 ```
 
-### 10.3.2 Decrypting files <a name="vault_decrypting_files"></a>
+### 11.3.2 Decrypting files <a name="vault_decrypting_files"></a>
 
 ```yaml
 ansible-vault decrypt variables.yml      # Decrypt the entire file
@@ -941,13 +975,13 @@ ansible-vault view variables.yml         # View the content decrypted
 ansible-vault edit variables.yml         # Open a editor to edit the 
 ```
 
-### 10.3.3 Rotating password <a name="vault_rotating_password"></a>
+### 11.3.3 Rotating password <a name="vault_rotating_password"></a>
 
 ```yaml
 ansible-vault rekey variables.yml        # Change the ecryption key
 ```
 
-## 10.4 Vault ID - Multiple passwords <a name="vault_id"></a>
+## 11.4 Vault ID - Multiple passwords <a name="vault_id"></a>
 
 You can encrypt files and variables with different passwords. For that you can specify an label (Vault ID) for each encrypted content, using the argument `--vault-id`.
 
@@ -976,40 +1010,6 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 > **_NOTE 1:_** You can encrypt contents with different passwords for the same label (Vault ID), Anisble does not validate it.
 
 > **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
-
-# 11 Modules <a name="modules"></a>
-
-[[doc]](https://docs.ansible.com/ansible/latest/module_plugin_guide/index.html)
-
-List of [Common modules](https://github.com/leofds/notes/tree/master/ansible/common_modules.md)
-
-Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. Ansible executes each module, usually on the remote managed node, and collects return values.
-
-All modules return JSON format data. This means modules can be written in any programming language, but Python is a common choice.
-
-> **_NOTE:_** Modules should be idempotent, and should avoid making any changes if they detect that the current state matches the desired final state.
-
-## 11.1 Executing modules from the command line <a name="running_modules_from_command_line"></a>
-
-```yaml
-ansible device1 -m ping
-ansible device1 -m command -a "/sbin/reboot -t now"        # With argument
-ansible device1 -m service -a "name=httpd state=started"   # With arguments key=value
-```
-
-## 11.2 Executing modules from playbooks <a name="running_modules_from_playbooks"></a>
-
-```yaml
-- name: reboot the servers            # Task name
-  command: /sbin/reboot -t now        # Module name and arguments
-```
-
-```yaml
-- name: restart webserver             # Task name
-  service:                            # Module name
-    name: httpd                       # Module args
-    state: restarted                  # Module args
-```
 
 # 12 Plugins
 
