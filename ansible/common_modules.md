@@ -4,7 +4,16 @@ Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md
 
 > **_NOTE:_** Prefer to use a Fully Qualified Collection Name (FQCN) like `ansible.builtin.debug` instead of `debug`, for linking with module documentation and to avoid conflicts with the other collections that may have the same module name.
 
-# 1. Debug
+# Summary
+
+1. [Debug](#debug)
+2. [Shell](#shell)
+3. [Stat](#stat)
+4. [Copy](#copy)
+5. [File](#file)
+6. [URI](#uri)
+
+# 1. Debug <a name="debug"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/debug_module.html)
 
@@ -23,7 +32,7 @@ This module prints variables or expressions.
     verbosity: 2
 ```
 
-# 2. Shell
+# 2. Shell <a name="shell"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/shell_module.html)
 
@@ -35,7 +44,7 @@ This module runs the command through a shell (/bin/sh) on the remote node.
   register: result
 ```
 
-# 3. Stat
+# 3. Stat <a name="stat"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/stat_module.html)
 
@@ -120,7 +129,7 @@ Checking if the file exists
   when: not st.stat.exists
 ```
 
-# 4. Copy
+# 4. Copy <a name="copy"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/copy_module.html)
 
@@ -145,7 +154,7 @@ This module copies a file or a directory structure from the local or remote mach
     remote_src: yes
 ```
 
-# 5. File
+# 5. File <a name="file"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/file_module.html)
 
@@ -194,7 +203,7 @@ Set attributes of files, directories, or symlinks and their targets. Alternative
     state: absent
 ```
 
-# 6. URI
+# 6. URI <a name="uri"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html)
 
