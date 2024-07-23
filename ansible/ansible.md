@@ -142,6 +142,7 @@ ansible --version
 
 ```shell
 ansible-inventory --list
+ansible-inventory --graph
 ```
 
 **Run Playbook**
