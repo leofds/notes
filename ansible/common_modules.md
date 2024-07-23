@@ -1,5 +1,7 @@
 # Common Modules
 
+Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md)
+
 > **_NOTE:_** Prefer to use a Fully Qualified Collection Name (FQCN) like `ansible.builtin.debug` instead of `debug`, for linking with module documentation and to avoid conflicts with the other collections that may have the same module name.
 
 # 1. Debug
