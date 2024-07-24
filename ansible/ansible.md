@@ -87,18 +87,31 @@ In brief, Ansible connects to remote hosts via SSH to execute commands and Pytho
 
 # 3 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
 
+**Installing in isolated environments with pipx (Recommended)**
+
 ```shell
 sudo apt update
 sudo apt install pipx -y
 pipx install --include-deps ansible
 pipx ensurepath
 source ~/.bashrc
+
+# Updating
+pipx upgrade --include-injected ansible
 ```
 
-Updating
+**Installing with pip3**
 
 ```shell
-pipx upgrade --include-injected ansible
+sudo apt update
+sudo apt install python3-pip -y
+
+# Choose only one of the two lines below, choosing Global or Local installation
+sudo pip3 install ansible           # Global
+pip3 install --user ansible         # Local
+
+echo 'export PATH="$PATH:~/.local/bin"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
 ## 3.1 Creating configuration file <a name="creating_conf_file"></a>
@@ -749,7 +762,7 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
 
 List of common [builtin modules](https://github.com/leofds/notes/tree/master/ansible/builtin_modules.md)
 
-Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. Ansible executes each module, usually on the remote managed node, and collects return values.
+Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. A module is a script that Ansible runs locally or remotely, and collects return values.
 
 All modules return JSON format data. This means modules can be written in any programming language, but Python is a common choice.
 
@@ -1011,6 +1024,63 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 > **_NOTE 1:_** You can encrypt contents with different passwords for the same label (Vault ID), Anisble does not validate it.
 
 > **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
+
+# 12 Developing modules
+
+[[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
+
+If you need functionality that is not available in any of the thousands of Ansible modules found in collections, you can easily write your own custom module. Modules can be written in any language, but must of guides use Python. 
+
+This guide helps you to develop Python modules.
+
+Start copying the [Custom Module Template](https://github.com/leofds/notes/tree/master/ansible/custom_module_template.py) file to your workspace `library/my_test.py`, modify and extend the code to do what you want.
+
+## 12.1 Verifying your module locally
+
+### 12.1.1 Using Ansible adhoc command
+
+Command
+
+```yaml
+ANSIBLE_LIBRARY=./library ansible localhost -m my_test -a 'name=hello new=true' 
+```
+
+Output
+
+```shell
+localhost | CHANGED => {
+    "changed": true,
+    "message": "goodbye",
+    "original_message": "hello"
+}
+```
+
+### 12.1.2 Using Python
+
+Create a JSON file `/tmp/args.json`.
+
+```json
+{
+    "ANSIBLE_MODULE_ARGS": {
+        "name": "hello",
+        "new": true
+    }
+}
+```
+
+Command
+
+```shell
+source $HOME/.local/share/pipx/venvs/ansible/bin/activate  # Only if ansible installed with pipx
+
+python library/my_test.py /tmp/args.json
+```
+
+Output
+
+```json
+{"changed": true, "original_message": "hello", "message": "goodbye", "invocation": {"module_args": {"name": "hello", "new": true}}}
+```
 
 # 12 Plugins
 
