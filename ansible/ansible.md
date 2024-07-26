@@ -59,6 +59,11 @@ GitHub: https://github.com/ansible/ansible<br>
 11.3.2. [Decrypting files](#vault_decrypting_files)<br>
 11.3.3. [Rotating password](#vault_rotating_password)<br>
 11.4. [Vault ID - Multiple passwords](#vault_id)<br>
+12. [Developing modules](#developing_modules)<br>
+12.1. [Verifying your module locally](#verify_your_module)<br>
+12.1.1. [Using Ansible adhoc command](#verify_your_module_adhoc_command)<br>
+12.1.2. [Using the module in a Playbook](#verify_your_module_in_a_playbook)<br>
+12.1.3. [Using Python](#verify_your_module_using_python)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -1025,7 +1030,7 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 
 > **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
 
-# 12 Developing modules
+# 12 Developing modules <a name="developing_modules"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
 
@@ -1033,16 +1038,24 @@ If you need functionality that is not available in any of the thousands of Ansib
 
 This guide helps you to develop Python modules.
 
-Start copying the [Custom Module Template](https://github.com/leofds/notes/tree/master/ansible/custom_module_template.py) file to your workspace `library/my_test.py`, modify and extend the code to do what you want.
+Start copying the [Custom Module Template](https://github.com/leofds/notes/tree/master/ansible/custom_module_template.py) file to your workspace `$HOME/library/my_test.py`, modify and extend the code to do what you want.
 
-## 12.1 Verifying your module locally
+Ansible won't find this module automatically, for that you have these options:
 
-### 12.1.1 Using Ansible adhoc command
+- Put your module in the default module path `.ansible/plugins/modules/` by creating the directories first: `mkdir -p $HOME/.ansible/plugins/modules/`. The default path can be changed in the ansible.cfg file.
+- Set the environment variable `export ANSIBLE_LIBRARY="$HOME/library"`
+
+Module [Return Values](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
+
+
+## 12.1 Verifying your module locally <a name="verify_your_module"></a>
+
+### 12.1.1 Using Ansible adhoc command <a name="verify_your_module_adhoc_command"></a>
 
 Command
 
 ```yaml
-ANSIBLE_LIBRARY=./library ansible localhost -m my_test -a 'name=hello new=true' 
+ansible localhost -m my_test -a 'name=hello new=true'
 ```
 
 Output
@@ -1055,7 +1068,54 @@ localhost | CHANGED => {
 }
 ```
 
-### 12.1.2 Using Python
+### 12.1.2 Using the module in a Playbook <a name="verify_your_module_in_a_playbook"></a>
+
+Create the playbook file `testmod.yml`
+
+```yaml
+- name: test my new module
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: run the new module
+    my_test:
+      name: 'hello'
+      new: true
+    register: testout
+  - name: dump test output
+    debug:
+      msg: '{{ testout }}'
+```
+
+Command
+
+```yaml
+ansible-playbook testmod.yml
+```
+
+Output
+
+```shell
+PLAY [test my new module] **********************************************************************************************************************************
+
+TASK [run the new module] **********************************************************************************************************************************
+changed: [localhost]
+
+TASK [dump test output] ************************************************************************************************************************************
+ok: [localhost] => {
+    "msg": {
+        "changed": true,
+        "failed": false,
+        "message": "goodbye",
+        "original_message": "hello"
+    }
+}
+
+PLAY RECAP *************************************************************************************************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+### 12.1.3 Using Python <a name="verify_your_module_using_python"></a>
 
 Create a JSON file `/tmp/args.json`.
 
@@ -1073,13 +1133,23 @@ Command
 ```shell
 source $HOME/.local/share/pipx/venvs/ansible/bin/activate  # Only if ansible installed with pipx
 
-python library/my_test.py /tmp/args.json
+python3 library/my_test.py /tmp/args.json
 ```
 
 Output
 
 ```json
-{"changed": true, "original_message": "hello", "message": "goodbye", "invocation": {"module_args": {"name": "hello", "new": true}}}
+{
+  "changed": true,
+  "original_message": "hello",
+  "message": "goodbye",
+  "invocation": {
+    "module_args": {
+      "name": "hello",
+      "new": true
+    }
+  }
+}
 ```
 
 # 12 Plugins
