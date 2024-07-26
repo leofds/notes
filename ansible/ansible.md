@@ -87,9 +87,15 @@ In brief, Ansible connects to remote hosts via SSH to execute commands and Pytho
 - **Vault** Ansible Vault is a feature of ansible that allows you to keep sensitive data such as passwords or keys in encrypted files.
 - **Modules** Usually a Python script sent to each host (when needed) to accomplish the action in each Task.</br>
 - **Plugins** Expands the Ansible's core capactibilities.</br>
-  - **Connection Plugins**</br>
-  - **Filter Plugins**</br>
-  - **Callback Plugins**</br>
+  - **Action Plugins** let you integrate local processing and local data with module functionality</br>
+  - **Cache Plugins** store gathered facts and data retrieved by inventory plugins.</br>
+  - **Callback Plugins** add new behaviors to Ansible when responding to events.</br>
+  - **Connection Plugins** allow Ansible to connect to target hosts so it can execute tasks on them.</br>
+  - **Filter Plugins** manipulate data.</br>
+  - **Inventory Plugins** parse inventory sources and form an in-memory representation of the inventory.</br>
+  - **Lookup Plugins** pull in data from external data stores. </br>
+  - **Test Plugins** verify data.</br>
+  - **Vars Plugins** inject additional variable data into Ansible runs that did not come from an inventory source, playbook, or command line.</br>
 - **Collections** A format in which Ansible content is distributed that can contain playbooks, roles, modules, and plugins. You can install and use collections through [Ansible Galaxy](https://galaxy.ansible.com/ui/).</br>
 
 # 3 How to install on Ubuntu 24 <a name="install_ubuntu24"></a>
