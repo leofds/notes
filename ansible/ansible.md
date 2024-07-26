@@ -59,12 +59,13 @@ GitHub: https://github.com/ansible/ansible<br>
 11.3.2. [Decrypting files](#vault_decrypting_files)<br>
 11.3.3. [Rotating password](#vault_rotating_password)<br>
 11.4. [Vault ID - Multiple passwords](#vault_id)<br>
-12. [Developing modules](#developing_modules)<br>
+12. [Developing Modules](#developing_modules)<br>
 12.1. [Verifying your module locally](#verify_your_module)<br>
 12.1.1. [Using Ansible adhoc command](#verify_your_module_adhoc_command)<br>
 12.1.2. [Using the module in a Playbook](#verify_your_module_in_a_playbook)<br>
 12.1.3. [Using Python](#verify_your_module_using_python)<br>
 13. [Developing Collections](#developing_collections)<br>
+14. [Developing Plugins](#developing_plugins)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -211,8 +212,6 @@ ansible webservers -m service -a "name=httpd state=started"
 ```shell
 ansible-galaxy collection init my_namespace.my_collection             # Create collection with a template
 ansible-galaxy collection build path/to/my_namespace/my_collection    # Build collection
-
-
 ansible-galaxy collection install path/to/my_namespace/my_collection  # Install collection
 ansible-galaxy collection install path/to/my_namespace-my_collection-1.0.0.tar.gz # Install builded collection
 
@@ -230,6 +229,11 @@ ansible-vault view myfile.yml                       # View vault encrypted file
 ansible-vault encrypt myfile.yml                    # Encrypt YAML file
 ansible-vault encrypt_string 'value' --name 'key'   # Encrypt a string
 ansible-vault rekey myfile.yml                      # Re-key a vault encrypted file
+
+# Arguments
+--vault-password-file
+--ask-vault-pass
+--vault-id
 ```
 
 # 5 Inventory <a name="inventory"></a>
@@ -1038,7 +1042,7 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 
 > **_NOTE 2:_** Even if the label is wrong, the decryption will work if the password is right. Ansible will try to decrypt files/variables with any password given, first trying to do it with the password of the matching label to increase the performance.
 
-# 12 Developing modules <a name="developing_modules"></a>
+# 12 Developing Modules <a name="developing_modules"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html) [[Should you develop a module?]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules.html#developing-modules)
 
@@ -1195,8 +1199,5 @@ You can change the default collections path in the ansible.cfg file by changin t
 
 # 14 Developing Plugins <a name="developing_plugins"></a>
 
-## 14.1 Connection Plugins
-## 14.2 Filter Plugins
-## 14.3 Callback Plugins
-
-# Template
+[[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_plugins.html)
+[[Working with plugins]](https://docs.ansible.com/ansible/latest/plugins/plugins.html)
