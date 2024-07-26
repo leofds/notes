@@ -64,6 +64,7 @@ GitHub: https://github.com/ansible/ansible<br>
 12.1.1. [Using Ansible adhoc command](#verify_your_module_adhoc_command)<br>
 12.1.2. [Using the module in a Playbook](#verify_your_module_in_a_playbook)<br>
 12.1.3. [Using Python](#verify_your_module_using_python)<br>
+13. [Developing Collections](#developing_collections)<br>
 
 # 1. Introduction <a name="introduction"></a>
 
@@ -769,7 +770,7 @@ List of common [builtin modules](https://github.com/leofds/notes/tree/master/ans
 
 Modules (also referred to as “task plugins” or “library plugins”) are discrete units of code that can be used from the command line or in a playbook task. A module is a script that Ansible runs locally or remotely, and collects return values.
 
-All modules return JSON format data. This means modules can be written in any programming language, but Python is a common choice.
+All modules return JSON format data [[doc]](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html). This means modules can be written in any programming language, but Python is a common choice.
 
 > **_NOTE:_** Modules should be idempotent, and should avoid making any changes if they detect that the current state matches the desired final state.
 
@@ -1032,7 +1033,7 @@ ansible-playbook hello.yml --vault-id leo@prompt --vault-id dev@prompt  # Asing 
 
 # 12 Developing modules <a name="developing_modules"></a>
 
-[[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html)
+[[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html) [[Should you develop a module?]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules.html#developing-modules)
 
 If you need functionality that is not available in any of the thousands of Ansible modules found in collections, you can easily write your own custom module. Modules can be written in any language, but must of guides use Python. 
 
@@ -1042,7 +1043,7 @@ Start copying the [Custom Module Template](https://github.com/leofds/notes/tree/
 
 Ansible won't find this module automatically, for that you have these options:
 
-- Put your module in the default module path `.ansible/plugins/modules/` by creating the directories first: `mkdir -p $HOME/.ansible/plugins/modules/`. The default path can be changed in the ansible.cfg file.
+- Put your module in the default module path `.ansible/plugins/modules/` by creating the directories first: `mkdir -p $HOME/.ansible/plugins/modules/`. The default module path can be changed in the ansible.cfg file.
 - Set the environment variable `export ANSIBLE_LIBRARY="$HOME/library"`
 
 Module [Return Values](https://docs.ansible.com/ansible/latest/reference_appendices/common_return_values.html)
@@ -1151,14 +1152,25 @@ Output
   }
 }
 ```
+# 13 Developing Collections <a name="developing_collections"></a>
 
-# 12 Plugins
+[[doc]](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_creating.html) [[Creating a new collection]](https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_in_groups.html#developing-modules-in-groups)
 
-## 12.1 Connection Plugins
-## 12.2 Filter Plugins
+Collections are a distribution format for Ansible content. You can package and distribute playbooks, roles, modules, and plugins using collections.
 
-## 12.3 Callback Plugins
+To create a collection:
 
-# 13 Collections
+1. Create a new collection with a template running the command: `ansible-galaxy collection init path/to/my_namespace.my_collection`
+2. Add modules and other content to the collection, and edit the file `galaxy.yml`.
+3. Install the collection with `ansible-galaxy collection install my_namespace.my_collection` or build the collection to a tag.gz file with `ansible-galaxy collection build path/to/my_namespace/my_collection`. To install the builded collection run `ansible-galaxy collection install path/to/my_namespace-my_collection-1.0.0.tar.gz`.
+4. (Optional) Publish the collection artifact to Galaxy with `ansible-galaxy collection publish path/to/my_namespace-my_collection-1.0.0.tar.gz --api-key=SECRET`.
+
+You can change the default collections path in the ansible.cfg file by changin the property `collections_path=`.
+
+# 14 Developing Plugins <a name="developing_plugins"></a>
+
+## 14.1 Connection Plugins
+## 14.2 Filter Plugins
+## 14.3 Callback Plugins
 
 # Template
