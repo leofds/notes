@@ -209,6 +209,13 @@ ansible webservers -m service -a "name=httpd state=started"
 **Installing collections with Ansible Galaxy**
 
 ```shell
+ansible-galaxy collection init my_namespace.my_collection             # Create collection with a template
+ansible-galaxy collection build path/to/my_namespace/my_collection    # Build collection
+
+
+ansible-galaxy collection install path/to/my_namespace/my_collection  # Install collection
+ansible-galaxy collection install path/to/my_namespace-my_collection-1.0.0.tar.gz # Install builded collection
+
 ansible-galaxy collection install ansible.utils           # Install the collection ansible.utils
 ansible-galaxy collection list                            # List installed collections
 ```
@@ -1160,10 +1167,29 @@ Collections are a distribution format for Ansible content. You can package and d
 
 To create a collection:
 
-1. Create a new collection with a template running the command: `ansible-galaxy collection init path/to/my_namespace.my_collection`
+1. Create a new collection with a template running the command: 
+
+```shell
+ansible-galaxy collection init my_namespace.my_collection
+```
 2. Add modules and other content to the collection, and edit the file `galaxy.yml`.
-3. Install the collection with `ansible-galaxy collection install my_namespace.my_collection` or build the collection to a tag.gz file with `ansible-galaxy collection build path/to/my_namespace/my_collection`. To install the builded collection run `ansible-galaxy collection install path/to/my_namespace-my_collection-1.0.0.tar.gz`.
-4. (Optional) Publish the collection artifact to Galaxy with `ansible-galaxy collection publish path/to/my_namespace-my_collection-1.0.0.tar.gz --api-key=SECRET`.
+
+3. Install or build collection:
+
+```shell
+# Install collection
+ansible-galaxy collection install path/to/my_namespace/my_collection
+
+# Build collection
+ansible-galaxy collection build path/to/my_namespace/my_collection
+ansible-galaxy collection install path/to/my_namespace-my_collection-1.0.0.tar.gz  # Install builded collection
+```
+
+4. (Optional) Publish the collection artifact to Galaxy:
+
+```shell
+ansible-galaxy collection publish path/to/my_namespace-my_collection-1.0.0.tar.gz --api-key=SECRET
+```
 
 You can change the default collections path in the ansible.cfg file by changin the property `collections_path=`.
 
