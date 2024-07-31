@@ -40,7 +40,7 @@ GitHub: https://github.com/ansible/ansible<br>
 8.3.1. [Handling tasks failures with `rescue`](#blocks_rescue)<br>
 8.3.2. [`always` section](#blocks_always)<br>
 8.4. [Handlers](#handlers)<br>
-8.5. [Re-using Ansible artifacts](#reusing_playbooks)<br>
+8.5. [Importing a playbook](#importing_playbooks)<br>
 9. [Modules](#modules)<br>
 9.1. [Executing modules from the command line](#running_modules_from_command_line)<br>
 9.2. [Executing modules from playbooks](#running_modules_from_playbooks)<br>
@@ -770,13 +770,21 @@ Handlers are tasks that only run when notified. Usually when a task made a chang
       # ...
 ```
 
-## 8.5 Re-using Ansible artifacts <a name="reusing_playbooks"></a>
+## 8.5 Importing a playbook <a name="importing_playbooks"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse.html)
+[[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/import_playbook_module.html)
 
 ```yaml
-- import_playbook: myplaybook1.yml
-- import_playbook: myplaybook1.yml
+- ansible.builtin.import_playbook: myplaybook1.yml
+- ansible.builtin.import_playbook: myplaybook1.yml
+
+- name: Include a play after/before another play
+  ansible.builtin.import_playbook: otherplays.yaml
+
+tasks:
+  - name: Include a play in a task
+    ansible.builtin.import_playbook: otherplays.yaml
 ```
 
 # 9 Modules <a name="modules"></a>
