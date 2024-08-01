@@ -15,6 +15,7 @@ Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md
 5. [File](#file)
 6. [URI](#uri)
 7. [Add Host](#add_host)
+8. [Pause](#pause)
 
 # 1. Debug <a name="debug"></a>
 
@@ -251,4 +252,15 @@ Create new hosts and groups in inventory for use in later plays of the same play
 - name: Ping Remote host
   ansible.builtin.ping:
   delegate_to: remote_host
+```
+
+# 8. Pause <a name="pause"></a>
+
+[[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/pause_module.html)
+
+```yaml
+- name: Pause to get some sensitive input
+  ansible.builtin.pause:
+    prompt: "Enter a secret"
+    echo: no
 ```
