@@ -243,7 +243,7 @@ Create new hosts and groups in inventory for use in later plays of the same play
   ansible.builtin.add_host:
     name: remote_host
     ansible_host: "{{ remote_ip }}"
-    ansible_user: "{{ remote_user }}"
+    ansible_ssh_user: "{{ remote_user }}"
     ansible_ssh_pass: "{{ remote_password }}"
     ansible_ssh_common_args: "-o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -o PubkeyAuthentication=no"
     # ansible_ssh_extra_args: "-o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -o PubkeyAuthentication=no"
