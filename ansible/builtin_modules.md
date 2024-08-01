@@ -14,6 +14,7 @@ Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md
 4. [Copy](#copy)
 5. [File](#file)
 6. [URI](#uri)
+7. [Add Host](#add_host)
 
 # 1. Debug <a name="debug"></a>
 
@@ -229,4 +230,24 @@ Interacts with HTTP and HTTPS web services and supports Digest, Basic and WSSE H
 - name: Show the output
   debug:
     msg: "{{ uri_output }}"
+```
+
+# 7. Add Host <a name="add_host"></a>
+
+[[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/add_host_module.html)
+
+Create new hosts and groups in inventory for use in later plays of the same playbook.
+
+```yaml
+- name: Set remote host dynamically
+  ansible.builtin.add_host:
+    name: remote_host
+    ansible_host: "{{ remote_ip }}"
+    ansible_user: "{{ remote_user }}"
+    ansible_ssh_pass: "{{ remote_password }}"
+    ansible_ssh_extra_args: "-o UserKnownHostsFile=/dev/null -o PreferredAuthentications=password -o PubkeyAuthentication=no"
+
+- name: Ping Remote host
+  ansible.builtin.ping:
+  delegate_to: remote_host
 ```
