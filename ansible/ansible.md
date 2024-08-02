@@ -182,7 +182,7 @@ ansible-playbook myplaybook.yml -i /tmp/inventory.yml    # (--inventory) specify
 ansible-playbook myplaybook.yml -vvv                     # verbose mode (-v, -vvv, -vvvv)
 ansible-playbook myplaybook.yml --check                  # Check mode is just a simulation
 
-# Extra variables at runtime
+# Extra variables at runtime (variables defined in the command line with -e take precedence over other variable definitions and remain immutable throughout the playbook execution)
 ansible-playbook myplaybook.yml -e username=leo                   # (--extra_vars) set additional variables as key=value or YAML/JSON
 ansible-playbook myplaybook.yml -e "username=leo password=*****"  # Multiples key=value
 ansible-playbook myplaybook.yml -e '{"username":"leo"}'           # inline JSON
