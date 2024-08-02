@@ -16,6 +16,7 @@ Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md
 6. [URI](#uri)
 7. [Add Host](#add_host)
 8. [Pause](#pause)
+9. [Set Fact](#set_fact)
 
 # 1. Debug <a name="debug"></a>
 
@@ -263,4 +264,14 @@ Create new hosts and groups in inventory for use in later plays of the same play
   ansible.builtin.pause:
     prompt: "Enter a secret"
     echo: no
+```
+
+# 9. Set Fact <a name="set_fact"></a>
+
+[[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_fact_module.html)
+
+```yaml
+- name: Update a variable
+  ansible.builtin.set_fact:
+    my_variable: 'hello'
 ```
