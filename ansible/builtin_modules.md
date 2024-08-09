@@ -13,10 +13,11 @@ Back to [Ansible](https://github.com/leofds/notes/tree/master/ansible/ansible.md
 3. [Stat](#stat)
 4. [Copy](#copy)
 5. [File](#file)
-6. [URI](#uri)
-7. [Add Host](#add_host)
-8. [Pause](#pause)
-9. [Set Fact](#set_fact)
+6. [Fetch](#fetch)
+7. [URI](#uri)
+8. [Add Host](#add_host)
+9. [Pause](#pause)
+10. [Set Fact](#set_fact)
 
 # 1. Debug <a name="debug"></a>
 
@@ -207,8 +208,21 @@ Set attributes of files, directories, or symlinks and their targets. Alternative
     path: /etc/foo
     state: absent
 ```
+# 6. Fetch <a name="fetch"></a>
 
-# 6. URI <a name="uri"></a>
+[[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/fetch_module.html)
+
+This module works like `ansible.builtin.copy`, but in reverse. It is used for fetching files from remote machines and storing them locally.
+
+```yaml
+- name: Specifying a destination path
+  ansible.builtin.fetch:
+    src: /tmp/uniquefile
+    dest: /tmp/special/
+    flat: yes
+```
+
+# 7. URI <a name="uri"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html)
 
@@ -234,7 +248,7 @@ Interacts with HTTP and HTTPS web services and supports Digest, Basic and WSSE H
     msg: "{{ uri_output }}"
 ```
 
-# 7. Add Host <a name="add_host"></a>
+# 8. Add Host <a name="add_host"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/add_host_module.html)
 
@@ -255,7 +269,7 @@ Create new hosts and groups in inventory for use in later plays of the same play
   delegate_to: remote_host
 ```
 
-# 8. Pause <a name="pause"></a>
+# 9. Pause <a name="pause"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/pause_module.html)
 
@@ -266,7 +280,7 @@ Create new hosts and groups in inventory for use in later plays of the same play
     echo: no
 ```
 
-# 9. Set Fact <a name="set_fact"></a>
+# 10. Set Fact <a name="set_fact"></a>
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_fact_module.html)
 
