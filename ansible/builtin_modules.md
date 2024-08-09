@@ -284,6 +284,8 @@ Create new hosts and groups in inventory for use in later plays of the same play
 
 [[doc]](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/set_fact_module.html)
 
+This action allows setting variables associated to the current host. These variables will be available to subsequent plays during an ansible-playbook that have the same host.
+
 ```yaml
 - name: Update a variable
   ansible.builtin.set_fact:
